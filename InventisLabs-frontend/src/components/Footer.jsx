@@ -71,6 +71,21 @@ const Footer = () => {
                                 placeholder="Your email"
                                 className="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm transition-all"
                             />
+                            <div className="flex items-start gap-2">
+                                <div className="relative flex items-center mt-0.5">
+                                    <input
+                                        type="checkbox"
+                                        id="privacy-policy"
+                                        className="peer h-4 w-4 cursor-pointer appearance-none rounded border border-gray-300 dark:border-white/10 bg-white dark:bg-white/5 checked:bg-blue-600 checked:border-blue-600 transition-all"
+                                    />
+                                    <svg className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 text-white opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                </div>
+                                <label htmlFor="privacy-policy" className="text-xs text-gray-500 dark:text-gray-400 leading-tight cursor-pointer select-none">
+                                    I agree to the processing of my personal data according to the <a href="#" className="text-blue-600 hover:text-blue-500 hover:underline">privacy policy</a>.
+                                </label>
+                            </div>
                             <button className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors flex items-center justify-center gap-2 text-sm">
                                 Subscribe
                                 <Send className="w-4 h-4" />
