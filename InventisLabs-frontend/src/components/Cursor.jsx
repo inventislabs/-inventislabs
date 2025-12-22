@@ -11,16 +11,19 @@ const Cursor = () => {
         const follower = followerRef.current;
 
         // Move cursor and follower
-        const onMouseMove = (e) => {
+        const onMove = (e) => {
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
             gsap.to(cursor, {
-                x: e.clientX,
-                y: e.clientY,
+                x: clientX,
+                y: clientY,
                 duration: 0.1,
                 ease: 'power2.out'
             });
             gsap.to(follower, {
-                x: e.clientX,
-                y: e.clientY,
+                x: clientX,
+                y: clientY,
                 duration: 0.3,
                 ease: 'power2.out'
             });
@@ -36,19 +39,25 @@ const Cursor = () => {
             clickableElements.forEach(el => {
                 el.addEventListener('mouseenter', onMouseEnterLink);
                 el.addEventListener('mouseleave', onMouseLeaveLink);
+                // Touch start/end could simulate hover if needed, but often disruptive on mobile.
+                // We'll stick to mouse events for hover state for now as mobile doesn't really "hover".
             });
         };
 
         // Initial setup
-        window.addEventListener('mousemove', onMouseMove);
+        window.addEventListener('mousemove', onMove);
+        window.addEventListener('touchmove', onMove);
+        window.addEventListener('touchstart', onMove);
         addHoverListeners();
 
-        // Re-attach listeners when DOM changes (simple observer or just re-run periodically could work, but let's stick to initial + window load for now or MutationObserver if rigorous)
+        // Re-attach listeners when DOM changes
         const observer = new MutationObserver(addHoverListeners);
         observer.observe(document.body, { childList: true, subtree: true });
 
         return () => {
-            window.removeEventListener('mousemove', onMouseMove);
+            window.removeEventListener('mousemove', onMove);
+            window.removeEventListener('touchmove', onMove);
+            window.removeEventListener('touchstart', onMove);
             observer.disconnect();
             const clickableElements = document.querySelectorAll('a, button, input, textarea, select, [role="button"]');
             clickableElements.forEach(el => {
@@ -79,12 +88,12 @@ const Cursor = () => {
             {/* Main Dot */}
             <div
                 ref={cursorRef}
-                className="fixed top-0 left-0 w-2.5 h-2.5 bg-[#1d1d1f] dark:bg-white rounded-full pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 hidden md:block transition-colors duration-500" // Hidden on mobile
+                className="fixed top-0 left-0 w-2.5 h-2.5 bg-[#1d1d1f] dark:bg-white rounded-full pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 transition-colors duration-500"
             />
             {/* Follower Ring */}
             <div
                 ref={followerRef}
-                className="fixed top-0 left-0 w-8 h-8 border border-[#1d1d1f] dark:border-white rounded-full pointer-events-none z-[9998] -translate-x-1/2 -translate-y-1/2 transition-colors duration-500 hidden md:block" // Hidden on mobile
+                className="fixed top-0 left-0 w-8 h-8 border border-[#1d1d1f] dark:border-white rounded-full pointer-events-none z-[9998] -translate-x-1/2 -translate-y-1/2 transition-colors duration-500"
             />
         </>
     );
