@@ -42,10 +42,7 @@ const About = () => {
             <div className="absolute inset-0 pointer-events-none opacity-[0.03] dark:opacity-[0.05]"
                 style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, #000 1px, transparent 0)', backgroundSize: '32px 32px' }}>
             </div>
-            {/* Invert dots for dark mode if possible, but opacity on black bg works differently. Let's make dots white in dark mode: radial-gradient(circle at 1px 1px, currentColor 1px...) and set text color?
-               Actually just swapping #000 to currentColor and adding text-black dark:text-white to container works.
-               Or explicitly:
-            */}
+
             <div className="absolute inset-0 pointer-events-none opacity-[0.03] dark:hidden"
                 style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, #000 1px, transparent 0)', backgroundSize: '32px 32px' }}>
             </div>
@@ -123,7 +120,6 @@ const About = () => {
                                 alt="Inventis Labs Team"
                                 className="w-full h-full object-cover"
                             />
-                            {/* Overlay for text readability if needed or just aesthetic tint */}
                             <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent mix-blend-multiply" />
                         </motion.div>
                     </div>

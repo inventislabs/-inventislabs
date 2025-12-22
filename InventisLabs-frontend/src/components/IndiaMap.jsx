@@ -39,7 +39,6 @@ const IndiaMap = ({ hoveredRegion }) => {
             .catch(err => console.error("Error loading India Map SVG:", err));
     }, []);
 
-    // Effect to handle highlighting
     useEffect(() => {
         if (!containerRef.current) return;
 
@@ -77,7 +76,6 @@ const IndiaMap = ({ hoveredRegion }) => {
 
     return (
         <div className="relative w-full h-full flex items-center justify-center">
-            {/* Render SVG */}
             {svgContent ? (
                 <div
                     ref={containerRef}
@@ -90,7 +88,6 @@ const IndiaMap = ({ hoveredRegion }) => {
                 </div>
             )}
 
-            {/* Glowing Hotspots */}
             <AnimatePresence>
                 {hoveredRegion && REGION_CENTROIDS[hoveredRegion] && (
                     <motion.div
@@ -99,19 +96,6 @@ const IndiaMap = ({ hoveredRegion }) => {
                         exit={{ opacity: 0, scale: 0 }}
                         className="absolute pointer-events-none"
                         style={{
-                            // Convert SVG coords roughly to % or absolute if we had precise pixel mapping.
-                            // Since standard SVG rendering might scale, simpler to rely on CSS 'fill' highlight above.
-                            // But keeping the pulse effect in approximate center of map if needed.
-                            // Actually, let's position relative to the container 
-                            // The SVG viewBox is 0 0 1000 1000 roughly based on prior analysis? 
-                            // Step 322 plan assumed 1000x1000 but the SVG I read has `viewBox="0 0 1052.3621 1236.9291"`?
-                            // Let's check the SVG header again.
-                            // Wait, I didn't see the header in my `read_file` calls (Step 312 started 1-164).
-                            // Line 4 started with `<path`... 
-                            // I missed the root `<svg>` tag attributes.
-                            // I'll assume standard layout.
-                            // Actually, I won't put absolute positioned dots *over* the SVG if I don't know the exact transform.
-                            // The path highlighting is the MVP "Mark all location proper" solution.
                             display: 'none'
                         }}
                     >
@@ -123,7 +107,6 @@ const IndiaMap = ({ hoveredRegion }) => {
                 )}
             </AnimatePresence>
 
-            {/* Tech grid overlay effect - optional */}
             <div className="absolute inset-0 pointer-events-none bg-[url('/grid.svg')] opacity-10 bg-center bg-cover mix-blend-overlay"></div>
         </div>
     );

@@ -148,14 +148,12 @@ const Navbar = () => {
             <div ref={navRef} className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-[800px] pointer-events-none opacity-0">
                 <nav className="pointer-events-auto flex items-center justify-between pl-6 pr-2 py-2 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-2xl border border-white/40 dark:border-white/10 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.04)] ring-1 ring-black/5 transition-all duration-300">
 
-                    {/* Brand */}
                     <div className="flex-shrink-0 cursor-pointer group mr-8">
                         <Link to="/" onClick={(e) => handleClick(e, { name: 'Home' })} className="text-gray-900 dark:text-gray-100 font-bold text-2xl tracking-wide transition-colors group-hover:text-black dark:group-hover:text-white font-cursive">
                             Inventis Labs
                         </Link>
                     </div>
 
-                    {/* Desktop Links */}
                     <ul className="hidden md:flex items-center gap-1">
                         {navItems.map((item) => (
                             <li key={item.name}>
@@ -177,7 +175,6 @@ const Navbar = () => {
                         ))}
                     </ul>
 
-                    {/* Theme Toggle Button (Desktop) */}
                     <button
                         onClick={toggleTheme}
                         className="hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 dark:bg-white/10 text-gray-900 dark:text-gray-100 hover:scale-105 transition-all ml-4"
@@ -186,7 +183,6 @@ const Navbar = () => {
                         {isDark ? <Sun size={18} /> : <Moon size={18} />}
                     </button>
 
-                    {/* Mobile Menu Button | Desktop Placeholder */}
                     <div className="flex md:hidden">
                         <button
                             onClick={() => setIsMobileMenuOpen(true)}
@@ -201,20 +197,17 @@ const Navbar = () => {
                 </nav>
             </div>
 
-            {/* Mobile Menu Overlay */}
             <div
                 className={`fixed inset-0 z-[60] bg-white/95 dark:bg-zinc-900/95 backdrop-blur-2xl transition-all duration-500 transform ${isMobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full pointer-events-none'
                     }`}
             >
                 <div className="flex flex-col h-full p-6">
-                    {/* Mobile Header */}
                     <div className="flex items-center justify-between mb-12 mt-2">
                         <span className="text-gray-900 dark:text-white font-bold text-3xl tracking-wide font-cursive">
                             Inventis Labs
                         </span>
 
                         <div className="flex items-center gap-4">
-                            {/* Theme Toggle Button (Mobile) */}
                             <button
                                 onClick={toggleTheme}
                                 className="p-3 rounded-full bg-gray-100 dark:bg-white/10 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-white/20 transition-colors"
@@ -234,7 +227,6 @@ const Navbar = () => {
                         </div>
                     </div>
 
-                    {/* Mobile Links */}
                     <ul className="flex flex-col gap-4">
                         {navItems.map((item, index) => (
                             <li key={item.name}

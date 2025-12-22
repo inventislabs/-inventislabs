@@ -6,6 +6,7 @@ import Admin from './components/Admin';
 import Cursor from './components/Cursor';
 import Navbar from './components/Navbar';
 
+// Wrapper to conditionally render content based on route (e.g., hiding Navbar on Admin)
 const Navigation = () => {
   const location = useLocation();
   if (location.pathname.startsWith('/admin')) {

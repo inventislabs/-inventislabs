@@ -56,7 +56,6 @@ const Hero = () => {
     return (
         <section ref={containerRef} className="relative pt-24 pb-12 lg:pt-32 lg:pb-0 overflow-hidden min-h-screen bg-[#FAFAFA] dark:bg-black flex items-center font-display transition-colors duration-500">
 
-            {/* Seismic Background Effect */}
             <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[800px] h-[800px] pointer-events-none opacity-40 hidden lg:block">
                 {[1, 2, 3].map((i) => (
                     <div key={i} className="seismic-wave absolute inset-0 border border-blue-200/50 dark:border-white/5 rounded-full origin-center" />
@@ -66,7 +65,6 @@ const Hero = () => {
 
             <div className="max-w-7xl mx-auto px-6 w-full grid lg:grid-cols-2 gap-16 items-center relative z-10">
 
-                {/* Left: Content */}
                 <div className="text-left">
                     <div className="hero-text-reveal inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400 text-xs font-bold uppercase tracking-wider mb-8 border border-orange-100 dark:border-orange-500/20 transition-colors">
                         <Activity className="w-3 h-3" />
@@ -96,14 +94,11 @@ const Hero = () => {
 
                 </div>
 
-                {/* Right: Abstract UI Visualization */}
                 <div className="relative h-[600px] hidden lg:flex items-center justify-center perspective-[1000px]">
-                    {/* Background Glow */}
                     <div className="absolute inset-0 bg-blue-100/50 dark:bg-blue-900/20 rounded-full blur-3xl scale-75 animate-pulse transition-colors" />
 
                     <div ref={cardsRef} className="relative z-10 w-80 transform rotate-y-[-12deg] rotate-x-[12deg] hover:rotate-0 transition-transform duration-700 ease-out preserve-3d">
 
-                        {/* Card 1: Map/Context */}
                         <div className="alert-card absolute top-[-80px] -right-12 w-full bg-white/60 dark:bg-zinc-900/60 backdrop-blur-md p-4 rounded-3xl border border-white/50 dark:border-white/10 shadow-lg z-0 transition-colors">
                             <div className="flex items-center gap-3 mb-2">
                                 <div className="w-8 h-8 rounded-full bg-gray-100 dark:bg-white/10 flex items-center justify-center"><Globe className="w-4 h-4 text-gray-400" /></div>
@@ -115,7 +110,6 @@ const Hero = () => {
                             <div className="h-24 bg-gray-100/50 dark:bg-white/5 rounded-xl w-full"></div>
                         </div>
 
-                        {/* Card 2: Incoming Wave */}
                         <div className="alert-card absolute top-6 -left-8 w-full bg-white/80 dark:bg-zinc-800/80 backdrop-blur-xl p-5 rounded-3xl border border-white/80 dark:border-white/10 shadow-xl z-10 transition-colors">
                             <div className="flex justify-between items-center mb-4">
                                 <span className="text-xs font-bold text-amber-500 bg-amber-50 dark:bg-amber-900/20 px-2 py-1 rounded-lg">CAUTION</span>
@@ -125,7 +119,6 @@ const Hero = () => {
                             <div className="text-sm text-gray-500 dark:text-gray-400">Analyzing magnitude signature...</div>
                         </div>
 
-                        {/* Card 3: MAIN ALERT */}
                         <div className="alert-card relative w-[110%] -left-[5%] bg-white/95 dark:bg-zinc-900/95 backdrop-blur-2xl p-6 rounded-[2rem] border border-red-500/20 dark:border-red-500/30 shadow-2xl shadow-red-500/10 dark:shadow-red-900/20 z-20 transition-colors">
                             <div className="flex items-center gap-4 mb-6">
                                 <div className="w-12 h-12 rounded-2xl bg-red-500 flex items-center justify-center text-white shadow-lg shadow-red-500/30">

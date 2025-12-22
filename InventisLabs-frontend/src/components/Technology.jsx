@@ -10,7 +10,6 @@ const Technology = () => {
 
     const yMove = useTransform(scrollYProgress, [0, 1], [0, -100]);
 
-    // Fade up animation variant
     const fadeInUp = {
         hidden: { opacity: 0, y: 30 },
         visible: {
@@ -22,7 +21,6 @@ const Technology = () => {
 
     return (
         <section id="technology" ref={containerRef} className="relative py-24 md:py-32 bg-white dark:bg-black text-gray-900 dark:text-white overflow-hidden transition-colors duration-500">
-            {/* Background/Glow effects */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl pointer-events-none z-0">
                 <div className="absolute top-40 left-[10%] w-[400px] h-[400px] bg-blue-100/40 dark:bg-blue-900/20 rounded-full blur-[100px] mix-blend-multiply dark:mix-blend-normal animate-pulse transition-colors" />
                 <div className="absolute bottom-40 right-[10%] w-[300px] h-[300px] bg-purple-100/40 dark:bg-purple-900/20 rounded-full blur-[100px] mix-blend-multiply dark:mix-blend-normal animate-pulse transition-colors" style={{ animationDelay: '2s' }} />
@@ -30,7 +28,6 @@ const Technology = () => {
 
             <div className="max-w-7xl mx-auto px-6 relative z-10">
 
-                {/* Header */}
                 <motion.div
                     initial="hidden"
                     whileInView="visible"
@@ -52,7 +49,6 @@ const Technology = () => {
                     </p>
                 </motion.div>
 
-                {/* Part 1: Sensor & Network */}
                 <div className="grid lg:grid-cols-2 gap-20 mb-32 items-center">
                     <motion.div
                         initial="hidden"
@@ -101,7 +97,6 @@ const Technology = () => {
                         style={{ y: yMove }}
                     >
                         <div className="relative w-80 h-80 md:w-[28rem] md:h-[28rem]">
-                            {/* Orbiting Elements */}
                             {[...Array(3)].map((_, i) => (
                                 <div key={i} className="absolute inset-0 border border-gray-200 dark:border-white/10 rounded-full transition-colors"
                                     style={{ animation: `spin ${20 + i * 5}s linear infinite ${i % 2 === 0 ? '' : 'reverse'}` }}>
@@ -109,7 +104,6 @@ const Technology = () => {
                                 </div>
                             ))}
 
-                            {/* Central Sensor Core */}
                             <motion.div
                                 whileHover={{ scale: 1.05, boxShadow: "0 25px 50px -12px rgba(59, 130, 246, 0.25)" }}
                                 className="absolute inset-0 m-auto w-48 h-48 md:w-56 md:h-56 bg-white dark:bg-black rounded-[2rem] border border-gray-100 dark:border-white/10 shadow-2xl flex flex-col items-center justify-center z-10 overflow-hidden cursor-pointer transition-colors"
@@ -124,13 +118,11 @@ const Technology = () => {
                                 </div>
                             </motion.div>
 
-                            {/* Signal Waves */}
                             <div className="absolute inset-0 m-auto w-48 h-48 rounded-[2rem] border-2 border-blue-500 opacity-0 animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
                         </div>
                     </motion.div>
                 </div>
 
-                {/* Part 2: Workflow Steps */}
                 <div className="mb-32 relative">
                     <div className="text-center mb-20">
                         <h3 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white inline-block transition-colors">
@@ -185,11 +177,9 @@ const Technology = () => {
                         ))}
                     </div>
 
-                    {/* Horizontal Flow Line */}
                     <div className="hidden md:block absolute top-[120px] left-10 right-10 h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-white/10 to-transparent -z-10 transition-colors"></div>
                 </div>
 
-                {/* Part 3: Time Metrics Dashboard */}
                 <motion.div
                     initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -197,7 +187,6 @@ const Technology = () => {
                     viewport={{ once: true }}
                     className="relative rounded-[2.5rem] bg-gray-900 text-white overflow-hidden shadow-2xl"
                 >
-                    {/* Dashboard Background Effect */}
                     <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-black"></div>
                     <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[100px] pointer-events-none"></div>
 

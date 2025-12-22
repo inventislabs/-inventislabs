@@ -39,8 +39,7 @@ const Cursor = () => {
             clickableElements.forEach(el => {
                 el.addEventListener('mouseenter', onMouseEnterLink);
                 el.addEventListener('mouseleave', onMouseLeaveLink);
-                // Touch start/end could simulate hover if needed, but often disruptive on mobile.
-                // We'll stick to mouse events for hover state for now as mobile doesn't really "hover".
+
             });
         };
 

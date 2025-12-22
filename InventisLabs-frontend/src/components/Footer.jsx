@@ -6,11 +6,8 @@ const Footer = () => {
         <footer className="bg-white dark:bg-zinc-950 border-t border-gray-200 dark:border-white/10 text-gray-500 dark:text-gray-400 transition-colors duration-500">
             <div className="max-w-7xl mx-auto px-6 py-16">
                 <div className="grid lg:grid-cols-4 gap-12 lg:gap-8">
-
-                    {/* Brand Column */}
                     <div className="space-y-6">
                         <div className="flex items-center gap-2">
-                            {/* You can replace this with your actual logo img if available */}
                             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-xl">
                                 I
                             </div>
@@ -37,7 +34,6 @@ const Footer = () => {
                         </div>
                     </div>
 
-                    {/* Quick Links */}
                     <div>
                         <h4 className="text-gray-900 dark:text-white font-bold mb-6 transition-colors">Quick Links</h4>
                         <ul className="space-y-3">
@@ -51,7 +47,6 @@ const Footer = () => {
                         </ul>
                     </div>
 
-                    {/* Resources */}
                     <div>
                         <h4 className="text-gray-900 dark:text-white font-bold mb-6 transition-colors">Resources</h4>
                         <ul className="space-y-3">
@@ -65,7 +60,6 @@ const Footer = () => {
                         </ul>
                     </div>
 
-                    {/* Newsletter */}
                     <div>
                         <h4 className="text-gray-900 dark:text-white font-bold mb-6 transition-colors">Subscribe</h4>
                         <p className="text-sm text-gray-500 dark:text-gray-400 mb-4 transition-colors">
@@ -86,7 +80,6 @@ const Footer = () => {
 
                 </div>
 
-                {/* Bottom Bar */}
                 <div className="mt-16 pt-8 border-t border-gray-200 dark:border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-400 dark:text-gray-500 transition-colors">
                     <p>© 2025 Inventis Labs. All rights reserved.</p>
                     <div className="flex gap-8">
