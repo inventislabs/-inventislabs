@@ -49,22 +49,22 @@ const Technology = () => {
                     </p>
                 </motion.div>
 
-                <div className="grid lg:grid-cols-2 gap-20 mb-32 items-center">
+                <div className="max-w-4xl mx-auto mb-32">
                     <motion.div
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true, margin: "-100px" }}
                         variants={fadeInUp}
-                        className="order-2 lg:order-1"
+                        className="text-center"
                     >
                         <h3 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white transition-colors">Network of IoT Sensors</h3>
-                        <p className="text-gray-500 dark:text-gray-400 text-lg mb-8 leading-relaxed transition-colors">
+                        <p className="text-gray-500 dark:text-gray-400 text-lg mb-12 leading-relaxed transition-colors max-w-3xl mx-auto">
                             Our proprietary IoT sensors form a dense network across seismically active regions. These highly sensitive devices can detect <span className="text-blue-600 font-semibold">P-waves</span> — the first, faster-moving but less damaging seismic waves that precede the more destructive S-waves.
                         </p>
 
-                        <div className="bg-white/80 dark:bg-white/5 rounded-3xl p-8 border border-gray-100 dark:border-white/10 shadow-xl shadow-gray-200/50 dark:shadow-none backdrop-blur-md transition-colors">
+                        <div className="bg-white/80 dark:bg-white/5 rounded-3xl p-8 border border-gray-100 dark:border-white/10 shadow-xl shadow-gray-200/50 dark:shadow-none backdrop-blur-md transition-colors text-left">
                             <h4 className="text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-6 pb-2 border-b border-gray-100 dark:border-white/10 transition-colors">Core Specs</h4>
-                            <ul className="space-y-4">
+                            <ul className="grid sm:grid-cols-2 gap-4">
                                 {[
                                     "High-precision accelerometers (nano-g sensitivity)",
                                     "Autonomous solar charging backup",
@@ -76,7 +76,7 @@ const Technology = () => {
                                         whileHover={{ x: 5 }}
                                         className="flex items-center gap-4 group cursor-default"
                                     >
-                                        <div className="w-8 h-8 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center group-hover:bg-blue-100 dark:group-hover:bg-blue-900/40 transition-colors">
+                                        <div className="w-8 h-8 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center group-hover:bg-blue-100 dark:group-hover:bg-blue-900/40 transition-colors shrink-0">
                                             <svg className="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                             </svg>
@@ -85,40 +85,6 @@ const Technology = () => {
                                     </motion.li>
                                 ))}
                             </ul>
-                        </div>
-                    </motion.div>
-
-                    {/* Advanced Sensor Visualization */}
-                    <motion.div
-                        className="order-1 lg:order-2 flex justify-center py-10"
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 1 }}
-                        style={{ y: yMove }}
-                    >
-                        <div className="relative w-80 h-80 md:w-[28rem] md:h-[28rem]">
-                            {[...Array(3)].map((_, i) => (
-                                <div key={i} className="absolute inset-0 border border-gray-200 dark:border-white/10 rounded-full transition-colors"
-                                    style={{ animation: `spin ${20 + i * 5}s linear infinite ${i % 2 === 0 ? '' : 'reverse'}` }}>
-                                    <div className="absolute -top-1.5 left-1/2 w-3 h-3 bg-white dark:bg-gray-800 border-2 border-blue-500 rounded-full shadow-md"></div>
-                                </div>
-                            ))}
-
-                            <motion.div
-                                whileHover={{ scale: 1.05, boxShadow: "0 25px 50px -12px rgba(59, 130, 246, 0.25)" }}
-                                className="absolute inset-0 m-auto w-48 h-48 md:w-56 md:h-56 bg-white dark:bg-black rounded-[2rem] border border-gray-100 dark:border-white/10 shadow-2xl flex flex-col items-center justify-center z-10 overflow-hidden cursor-pointer transition-colors"
-                            >
-                                <div className="absolute inset-0 bg-gradient-to-tr from-blue-50 to-purple-50 dark:from-blue-900/10 dark:to-purple-900/10 opacity-50"></div>
-                                <div className="relative z-10 flex flex-col items-center">
-                                    <div className="p-5 bg-blue-600 rounded-2xl shadow-lg shadow-blue-600/30">
-                                        <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                                        </svg>
-                                    </div>
-                                </div>
-                            </motion.div>
-
-                            <div className="absolute inset-0 m-auto w-48 h-48 rounded-[2rem] border-2 border-blue-500 opacity-0 animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
                         </div>
                     </motion.div>
                 </div>

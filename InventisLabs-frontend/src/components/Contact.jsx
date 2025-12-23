@@ -30,7 +30,7 @@ const Contact = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (!formData.privacy) {
             alert("Please agree to the privacy policy");
@@ -47,31 +47,52 @@ const Contact = () => {
             return;
         }
 
-        // 2. Input Sanitization (Basic XSS Prevention)
+        setStatus('Sending...');
+
+        // 2. Input Sanitization (Basic)
         const sanitize = (str) => {
             return str ? str.toString().replace(/[<>]/g, "").trim() : "";
         };
 
-        const cleanedData = {
+        const payload = {
             fullName: sanitize(formData.fullName),
             email: sanitize(formData.email),
             subject: sanitize(formData.subject),
             message: sanitize(formData.message),
-            privacy: formData.privacy
         };
 
-        const messages = JSON.parse(localStorage.getItem('messages') || '[]');
-        const newMessage = {
-            ...cleanedData,
-            id: Date.now(),
-            date: new Date().toISOString()
-        };
-        localStorage.setItem('messages', JSON.stringify([...messages, newMessage]));
-        localStorage.setItem('lastSubmissionTime', now.toString()); // Update rate limit
+        try {
+            const response = await fetch('http://localhost:5000/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            });
 
-        setStatus('Message sent successfully!');
-        setFormData({ fullName: '', email: '', subject: '', message: '', privacy: false });
-        setTimeout(() => setStatus(''), 3000);
+            const data = await response.json();
+
+            if (response.ok) {
+                // Success
+                setStatus('Message sent successfully! Check your email.');
+                setFormData({ fullName: '', email: '', subject: '', message: '', privacy: false });
+                localStorage.setItem('lastSubmissionTime', now.toString()); // Update rate limit
+
+                // Optional: Still save to local storage for offline record if needed
+                const messages = JSON.parse(localStorage.getItem('messages') || '[]');
+                const newMessage = { ...payload, id: Date.now(), date: new Date().toISOString() };
+                localStorage.setItem('messages', JSON.stringify([...messages, newMessage]));
+
+            } else {
+                // Server returned an error
+                setStatus(data.message || 'Failed to send message. Please try again.');
+            }
+        } catch (error) {
+            console.error('Submission Error:', error);
+            setStatus('Network error. Please try again later.');
+        }
+
+        setTimeout(() => setStatus(''), 5000);
     };
 
     return (
