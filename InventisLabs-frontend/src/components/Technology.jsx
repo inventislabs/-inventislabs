@@ -1,208 +1,184 @@
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import React, { useLayoutEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Activity, Cpu, Radio, Zap, Clock, ShieldCheck, Server, Smartphone, CheckCircle2 } from 'lucide-react';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Technology = () => {
     const containerRef = useRef(null);
-    const { scrollYProgress } = useScroll({
-        target: containerRef,
-        offset: ["start end", "end start"]
-    });
+    const headerRef = useRef(null);
+    const gridRef = useRef(null);
 
-    const yMove = useTransform(scrollYProgress, [0, 1], [0, -100]);
+    useLayoutEffect(() => {
+        let ctx = gsap.context(() => {
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: containerRef.current,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
 
-    const fadeInUp = {
-        hidden: { opacity: 0, y: 30 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: { duration: 0.6, ease: "easeOut" }
-        }
-    };
+            // Header Reveal
+            tl.from(".tech-header", {
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.2,
+                ease: "power3.out"
+            });
+
+            // Grid Items Reveal
+            gsap.from(".bento-item", {
+                scrollTrigger: {
+                    trigger: gridRef.current,
+                    start: "top 85%",
+                },
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.15,
+                ease: "power3.out"
+            });
+
+            // Stats Counter Animation
+            gsap.from(".stat-number", {
+                scrollTrigger: {
+                    trigger: ".stats-container",
+                    start: "top 80%",
+                },
+                textContent: 0,
+                duration: 2,
+                snap: { textContent: 1 },
+                stagger: 0.2,
+                ease: "power1.out"
+            });
+
+        }, containerRef);
+
+        return () => ctx.revert();
+    }, []);
 
     return (
-        <section id="technology" ref={containerRef} className="relative py-24 md:py-32 bg-white dark:bg-black text-gray-900 dark:text-white overflow-hidden transition-colors duration-500">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl pointer-events-none z-0">
-                <div className="absolute top-40 left-[10%] w-[400px] h-[400px] bg-blue-100/40 dark:bg-blue-900/20 rounded-full blur-[100px] mix-blend-multiply dark:mix-blend-normal animate-pulse transition-colors" />
-                <div className="absolute bottom-40 right-[10%] w-[300px] h-[300px] bg-purple-100/40 dark:bg-purple-900/20 rounded-full blur-[100px] mix-blend-multiply dark:mix-blend-normal animate-pulse transition-colors" style={{ animationDelay: '2s' }} />
-            </div>
+        <section ref={containerRef} id="technology" className="relative py-24 md:py-32 bg-white dark:bg-black overflow-hidden transition-colors duration-500 font-display">
 
             <div className="max-w-7xl mx-auto px-6 relative z-10">
 
-                <motion.div
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                    variants={fadeInUp}
-                    className="text-center max-w-3xl mx-auto mb-20"
-                >
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 shadow-sm transition-colors">
-                        <span className="flex h-2 w-2 rounded-full bg-blue-500 animate-pulse"></span>
-                        <span className="text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-gray-300">
-                            Unique Structure
-                        </span>
+                {/* Header */}
+                <div ref={headerRef} className="text-center max-w-3xl mx-auto mb-20">
+                    <div className="tech-header inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 text-xs font-semibold uppercase tracking-wide mb-6 border border-blue-100 dark:border-blue-500/20">
+                        <Cpu className="w-3 h-3" />
+                        <span>Engineering Excellence</span>
                     </div>
-                    <h2 className="text-4xl md:text-6xl font-semibold tracking-tight text-gray-900 dark:text-white mb-6 transition-colors">
-                        Our Technology
+                    <h2 className="tech-header text-4xl md:text-6xl font-semibold tracking-tight text-[#1d1d1f] dark:text-[#f5f5f7] mb-6">
+                        Milliseconds Matter.
                     </h2>
-                    <p className="text-xl text-gray-500 dark:text-gray-400 leading-relaxed font-light transition-colors">
-                        Discover the engineering behind milliseconds-latency earthquake detection.
+                    <p className="tech-header text-xl text-gray-500 dark:text-gray-400 leading-relaxed max-w-2xl mx-auto">
+                        A proprietary network of high-precision IoT sensors powered by edge AI, delivering the fastest earthquake early warning alerts in the industry.
                     </p>
-                </motion.div>
-
-                <div className="max-w-4xl mx-auto mb-32">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true, margin: "-100px" }}
-                        variants={fadeInUp}
-                        className="text-center"
-                    >
-                        <h3 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white transition-colors">Network of IoT Sensors</h3>
-                        <p className="text-gray-500 dark:text-gray-400 text-lg mb-12 leading-relaxed transition-colors max-w-3xl mx-auto">
-                            Our proprietary IoT sensors form a dense network across seismically active regions. These highly sensitive devices can detect <span className="text-blue-600 font-semibold">P-waves</span> — the first, faster-moving but less damaging seismic waves that precede the more destructive S-waves.
-                        </p>
-
-                        <div className="bg-white/80 dark:bg-white/5 rounded-3xl p-8 border border-gray-100 dark:border-white/10 shadow-xl shadow-gray-200/50 dark:shadow-none backdrop-blur-md transition-colors text-left">
-                            <h4 className="text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-6 pb-2 border-b border-gray-100 dark:border-white/10 transition-colors">Core Specs</h4>
-                            <ul className="grid sm:grid-cols-2 gap-4">
-                                {[
-                                    "High-precision accelerometers (nano-g sensitivity)",
-                                    "Autonomous solar charging backup",
-                                    "Low-latency LPWAN connectivity",
-                                    "Edge AI for false-positive reduction"
-                                ].map((item, i) => (
-                                    <motion.li
-                                        key={i}
-                                        whileHover={{ x: 5 }}
-                                        className="flex items-center gap-4 group cursor-default"
-                                    >
-                                        <div className="w-8 h-8 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center group-hover:bg-blue-100 dark:group-hover:bg-blue-900/40 transition-colors shrink-0">
-                                            <svg className="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                            </svg>
-                                        </div>
-                                        <span className="text-gray-600 dark:text-gray-300 font-medium group-hover:text-gray-900 dark:group-hover:text-white transition-colors">{item}</span>
-                                    </motion.li>
-                                ))}
-                            </ul>
-                        </div>
-                    </motion.div>
                 </div>
 
-                <div className="mb-32 relative">
-                    <div className="text-center mb-20">
-                        <h3 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white inline-block transition-colors">
-                            Milliseconds to Safety
-                        </h3>
+                {/* Bento Grid */}
+                <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+
+                    {/* Large Card: IoT Sensor (Spans 2 cols) */}
+                    <div className="bento-item col-span-1 md:col-span-2 relative overflow-hidden rounded-[2.5rem] bg-[#F5F5F7] dark:bg-zinc-900 p-8 md:p-12 min-h-[400px] flex flex-col justify-between group">
+                        <div className="relative z-10">
+                            <div className="w-12 h-12 rounded-2xl bg-white dark:bg-white/10 flex items-center justify-center mb-6 shadow-sm">
+                                <Activity className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                            </div>
+                            <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">IoT Sensor Network</h3>
+                            <p className="text-gray-500 dark:text-gray-400 text-lg max-w-md">
+                                Detecting <span className="text-blue-600 dark:text-blue-400 font-medium">P-waves</span> instantly with nano-g sensitive accelerometers before the destructive S-waves arrive.
+                            </p>
+                        </div>
+
+                        {/* Abstract Sensor VIS */}
+                        <div className="absolute right-[-20%] bottom-[-20%] w-[80%] h-[80%] opacity-10 dark:opacity-20 pointer-events-none">
+                            <div className="w-full h-full border-[20px] border-blue-500 rounded-full animate-pulse opacity-20"></div>
+                            <div className="absolute inset-0 m-auto w-[70%] h-[70%] border-[20px] border-blue-500 rounded-full animate-pulse opacity-40 delay-75"></div>
+                            <div className="absolute inset-0 m-auto w-[40%] h-[40%] bg-blue-500 rounded-full shadow-2xl shadow-blue-500"></div>
+                        </div>
                     </div>
 
-                    <div className="grid md:grid-cols-3 gap-8 relative z-10">
-                        {[
-                            {
-                                title: "Detection",
-                                desc: "Sensors detect initial P-waves instantly.",
-                                icon: (
-                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-                                ),
-                                delay: 0
-                            },
-                            {
-                                title: "Processing",
-                                desc: "AI verifies event & estimates arrival time.",
-                                icon: (
-                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" /></svg>
-                                ),
-                                delay: 0.2
-                            },
-                            {
-                                title: "Alert",
-                                desc: "Warnings distributed to millions instantly.",
-                                icon: (
-                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
-                                ),
-                                delay: 0.4
-                            }
-                        ].map((step, idx) => (
-                            <motion.div
-                                key={idx}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ delay: step.delay, duration: 0.5 }}
-                                viewport={{ once: true }}
-                                whileHover={{ y: -10, boxShadow: "0 20px 40px -15px rgba(0,0,0,0.1)" }}
-                                className="relative bg-white dark:bg-zinc-900 p-8 rounded-3xl border border-gray-100 dark:border-white/10 shadow-sm dark:shadow-none transition-all duration-300 group"
-                            >
-                                <div className="w-14 h-14 bg-gray-50 dark:bg-white/5 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition-colors duration-300">
-                                    <div className="text-blue-600 group-hover:text-white transition-colors duration-300">
-                                        {step.icon}
+                    {/* Tall Card: Specs (Spans 1 col) */}
+                    <div className="bento-item col-span-1 relative overflow-hidden rounded-[2.5rem] bg-indigo-600 text-white p-8 md:p-10 flex flex-col justify-center shadow-2xl shadow-indigo-500/20">
+                        <div className="absolute top-0 right-0 p-32 bg-white/10 rounded-full blur-3xl -mr-16 -mt-16"></div>
+
+                        <h3 className="text-2xl font-bold mb-8 relative z-10">Core Specs</h3>
+                        <ul className="space-y-6 relative z-10">
+                            {[
+                                { icon: <Zap size={18} />, text: "Nano-g sensitivity" },
+                                { icon: <Radio size={18} />, text: "Low-latency LPWAN" },
+                                { icon: <Server size={18} />, text: "Edge AI Processing" },
+                                { icon: <ShieldCheck size={18} />, text: "Autonomous Power" }
+                            ].map((spec, i) => (
+                                <li key={i} className="flex items-center gap-3 text-indigo-100 font-medium">
+                                    <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white">
+                                        {spec.icon}
                                     </div>
+                                    {spec.text}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    {/* Process Flow Cards (3 across) */}
+                    <div className="bento-item md:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {[
+                            { title: "Detection", desc: "Instantly captures P-waves", icon: <Activity className="w-5 h-5" /> },
+                            { title: "Processing", desc: "Edge AI verifies signal", icon: <Cpu className="w-5 h-5" /> },
+                            { title: "Alert", desc: "Mass warning sent", icon: <Smartphone className="w-5 h-5" /> }
+                        ].map((step, i) => (
+                            <div key={i} className="bg-white dark:bg-zinc-900 border border-gray-100 dark:border-white/10 p-6 rounded-3xl flex items-start gap-4 hover:shadow-lg transition-shadow duration-300">
+                                <div className="p-3 rounded-2xl bg-gray-50 dark:bg-white/5 text-gray-900 dark:text-white">
+                                    {step.icon}
                                 </div>
-                                <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-2 transition-colors">{step.title}</h4>
-                                <p className="text-gray-500 dark:text-gray-400 leading-relaxed font-light transition-colors">{step.desc}</p>
-                            </motion.div>
+                                <div>
+                                    <h4 className="font-bold text-gray-900 dark:text-white mb-1">{step.title}</h4>
+                                    <p className="text-sm text-gray-500 dark:text-gray-400">{step.desc}</p>
+                                </div>
+                            </div>
                         ))}
                     </div>
 
-                    <div className="hidden md:block absolute top-[120px] left-10 right-10 h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-white/10 to-transparent -z-10 transition-colors"></div>
-                </div>
+                    {/* Full Width Dark Banner */}
+                    <div className="bento-item col-span-1 md:col-span-3 mt-8 relative rounded-[2.5rem] overflow-hidden bg-black text-white p-8 md:p-16 text-center stats-container">
+                        <div className="absolute inset-0 bg-gradient-to-r from-gray-900 to-black z-0"></div>
+                        <div className="absolute top-[-50%] left-[-20%] w-[800px] h-[800px] bg-blue-600/20 rounded-full blur-[120px] pointer-events-none"></div>
 
-                <motion.div
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
-                    viewport={{ once: true }}
-                    className="relative rounded-[2.5rem] bg-gray-900 text-white overflow-hidden shadow-2xl"
-                >
-                    <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-black"></div>
-                    <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[100px] pointer-events-none"></div>
+                        <div className="relative z-10 max-w-4xl mx-auto">
+                            <h3 className="text-3xl md:text-5xl font-bold mb-8">Every Second Counts</h3>
 
-                    <div className="relative z-10 p-8 md:p-16 grid lg:grid-cols-2 gap-16 items-center">
-                        <div>
-                            <h3 className="text-3xl font-bold text-white mb-6">Every Second Counts</h3>
-                            <p className="text-gray-400 text-lg mb-10 font-light leading-relaxed">
-                                The time between receiving an alert and feeling the earthquake depends on your distance from the epicenter.
-                                <br /><br />
-                                <strong className="text-white">Even 5 seconds</strong> is enough to:
-                            </p>
-                            <ul className="space-y-4">
-                                {[
-                                    "Take cover under a desk",
-                                    "Stop trains & elevators (Automatic)",
-                                    "Shut down gas lines"
-                                ].map((item, i) => (
-                                    <motion.li
-                                        key={i}
-                                        whileHover={{ x: 5 }}
-                                        className="flex items-center gap-3 group cursor-default"
-                                    >
-                                        <span className="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center text-green-400 text-xs">✓</span>
-                                        <span className="text-gray-300 group-hover:text-white transition-colors">{item}</span>
-                                    </motion.li>
-                                ))}
-                            </ul>
-                        </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                                <div className="text-left space-y-6">
+                                    <p className="text-gray-400 text-lg leading-relaxed">
+                                        The time between receiving an alert and feeling the shaking can be the difference between life and death.
+                                    </p>
+                                    <ul className="space-y-3">
+                                        {["Automated train stops", "Gas line shutoffs", "People take cover"].map((action, i) => (
+                                            <li key={i} className="flex items-center gap-3 text-gray-300">
+                                                <CheckCircle2 className="w-5 h-5 text-green-500" /> {action}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
 
-                        <div className="grid grid-cols-2 gap-6">
-                            <motion.div
-                                whileHover={{ scale: 1.05 }}
-                                className="bg-gray-800/50 p-6 rounded-3xl border border-gray-700/50 flex flex-col items-center justify-center aspect-square text-center backdrop-blur-sm cursor-default"
-                            >
-                                <span className="text-4xl md:text-6xl font-black text-white mb-1">5-10<span className="text-2xl align-top text-gray-500 font-medium">s</span></span>
-                                <span className="text-xs uppercase tracking-widest text-blue-400">Warning Time</span>
-                                <span className="text-[10px] text-gray-500 mt-2">10-20km distance</span>
-                            </motion.div>
-
-                            <motion.div
-                                whileHover={{ scale: 1.05, rotate: 2 }}
-                                className="bg-gradient-to-br from-blue-600 to-indigo-700 p-6 rounded-3xl flex flex-col items-center justify-center aspect-square text-center shadow-2xl shadow-blue-900/50 cursor-pointer"
-                            >
-                                <span className="text-4xl md:text-6xl font-black text-white mb-1">20<span className="text-3xl align-top opacity-70">+</span></span>
-                                <span className="text-xs uppercase tracking-widest text-blue-100">Seconds</span>
-                                <span className="text-[10px] text-blue-100/60 mt-2">40km+ distance</span>
-                            </motion.div>
+                                <div className="flex flex-col items-center justify-center p-8 bg-white/5 rounded-3xl border border-white/10 backdrop-blur-sm">
+                                    <Clock className="w-12 h-12 text-blue-500 mb-4" />
+                                    <div className="text-6xl font-bold mb-2 flex items-baseline gap-1">
+                                        <span className="stat-number">10</span>
+                                        <span className="text-2xl text-gray-500">s</span>
+                                    </div>
+                                    <p className="text-sm font-medium text-gray-400 uppercase tracking-widest">Average Warning Time</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </motion.div>
+
+                </div>
 
             </div>
         </section>

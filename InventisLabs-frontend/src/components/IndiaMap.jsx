@@ -79,7 +79,7 @@ const IndiaMap = ({ hoveredRegion }) => {
             {svgContent ? (
                 <div
                     ref={containerRef}
-                    className="w-full h-full [&_svg]:w-full [&_svg]:h-full [&_path]:fill-gray-200 dark:[&_path]:fill-zinc-700/50 [&_path]:stroke-white dark:[&_path]:stroke-zinc-500 [&_path]:stroke-[1.5] [&_path]:transition-all [&_path]:duration-300"
+                    className="w-full h-full [&_svg]:w-full [&_svg]:h-full [&_path]:fill-slate-300 dark:[&_path]:fill-zinc-700/50 [&_path]:stroke-white dark:[&_path]:stroke-zinc-500 [&_path]:stroke-[1.5] [&_path]:transition-all [&_path]:duration-300"
                     dangerouslySetInnerHTML={{ __html: svgContent }}
                 />
             ) : (

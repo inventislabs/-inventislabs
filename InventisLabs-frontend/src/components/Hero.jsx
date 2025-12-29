@@ -1,51 +1,50 @@
 import React, { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
-import { ArrowRight, Activity, Globe, ShieldCheck } from 'lucide-react';
+import { Activity, Globe, ShieldCheck, ChevronRight, AlertTriangle, Siren } from 'lucide-react';
 
 const Hero = () => {
     const containerRef = useRef(null);
-    const titleRef = useRef(null);
+    const contentRef = useRef(null);
     const cardsRef = useRef(null);
 
     useLayoutEffect(() => {
         let ctx = gsap.context(() => {
-            // Text Vertical Reveal
-            gsap.from(".hero-text-reveal", {
-                y: 100,
-                opacity: 0,
-                duration: 1.2,
-                stagger: 0.1,
-                ease: "power4.out",
-                delay: 0.2
-            });
+            // Master Timeline
+            const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
-            // Cards Cascade In
-            gsap.from(".alert-card", {
-                x: 100,
+            // 1. Text Elements Reveal (Staggered Fade Up)
+            tl.from(".hero-text-element", {
+                y: 50,
                 opacity: 0,
                 duration: 1,
                 stagger: 0.15,
-                ease: "back.out(1.2)",
-                delay: 0.6
+                delay: 0.2
             });
 
-            // Seismic Wave Background Animation
-            gsap.to(".seismic-wave", {
-                scale: 2,
+            // 2. Buttons Reveal
+            tl.from(".hero-buttons", {
+                y: 20,
                 opacity: 0,
-                duration: 4,
-                repeat: -1,
-                stagger: 1,
-                ease: "sine.out"
-            });
+                duration: 0.8,
+            }, "-=0.5");
 
-            // Floating Animation for Cards
+            // 3. Visualization Reveal (Scale + Fade)
+            tl.from(cardsRef.current, {
+                y: 100,
+                scale: 0.95,
+                opacity: 0,
+                duration: 1.5,
+                ease: "power2.out"
+            }, "-=0.8");
+
+            // Floating Animation for Cards (Subtle breathing)
             gsap.to(cardsRef.current, {
-                y: -15,
-                duration: 2.5,
+                y: -10,
+                duration: 3,
                 repeat: -1,
                 yoyo: true,
-                ease: "sine.inOut"
+                ease: "sine.inOut",
+                delay: 2 // Start after entrance
             });
 
         }, containerRef);
@@ -54,93 +53,159 @@ const Hero = () => {
     }, []);
 
     return (
-        <section ref={containerRef} className="relative pt-24 pb-12 lg:pt-32 lg:pb-0 overflow-hidden min-h-screen bg-[#FAFAFA] dark:bg-black flex items-center font-display transition-colors duration-500">
+        <section ref={containerRef} className="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden min-h-[90vh] bg-[#F5F5F7] dark:bg-black flex flex-col items-center justify-center font-display transition-colors duration-500">
 
-            <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[800px] h-[800px] pointer-events-none opacity-40 hidden lg:block">
-                {[1, 2, 3].map((i) => (
-                    <div key={i} className="seismic-wave absolute inset-0 border border-blue-200/50 dark:border-white/5 rounded-full origin-center" />
-                ))}
-                <div className="absolute inset-0 bg-gradient-to-l from-[#FAFAFA] dark:from-black to-transparent" />
+            {/* Background Ambient Glow */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[1000px] h-[1000px] bg-blue-100/40 dark:bg-blue-900/10 rounded-full blur-3xl opacity-50" />
             </div>
 
-            <div className="max-w-7xl mx-auto px-6 w-full grid lg:grid-cols-2 gap-16 items-center relative z-10">
+            <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center relative z-10 text-center lg:text-left">
 
-                <div className="text-left">
-                    <div className="hero-text-reveal inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400 text-xs font-bold uppercase tracking-wider mb-8 border border-orange-100 dark:border-orange-500/20 transition-colors">
-                        <Activity className="w-3 h-3" />
-                        <span>Live Global Monitoring</span>
-                    </div>
-
-                    <h1 ref={titleRef} className="text-5xl sm:text-7xl font-bold tracking-tight text-gray-900 dark:text-white leading-[1.05] mb-8 transition-colors">
-                        <div className="overflow-hidden"><span className="hero-text-reveal block">Pioneering IoT Safety</span></div>
-                        <div className="overflow-hidden"><span className="hero-text-reveal block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400">For A Safer Tomorrow.</span></div>
+                {/* Left: Text Content */}
+                <div ref={contentRef} className="flex flex-col items-center lg:items-start max-w-2xl mx-auto lg:mx-0">
+                    <h1 className="hero-text-element text-5xl md:text-6xl lg:text-7xl font-semibold tracking-tight text-[#1d1d1f] dark:text-[#f5f5f7] leading-[1.1] mb-6">
+                        Building indigenous <br />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600 font-bold">
+                            early warning
+                        </span> <br />
+                        and intelligent sensing systems for a safer India.
                     </h1>
 
-                    <div className="hero-text-reveal space-y-4 mb-10 max-w-lg text-lg sm:text-lg text-gray-500 dark:text-gray-400 leading-relaxed transition-colors">
-                        <p>
-                            Pioneering India's first mass earthquake early warning system by combining expert seismology with cutting-edge IoT technology. Saving lives through innovation since 2018.
-                        </p>
-                    </div>
+                    <p className="hero-text-element text-lg md:text-xl text-gray-500 dark:text-gray-400 font-medium leading-relaxed mb-10 max-w-xl">
+                        InventisLabs is a deep-tech startup from Uttar Pradesh developing IoT- and AI-powered Earthquake Early Warning (EEW) and structural monitoring systems.
+                    </p>
 
-                    <div className="hero-text-reveal flex flex-wrap gap-4">
-                        <button className="h-14 px-8 rounded-2xl bg-gray-900 dark:bg-white text-white dark:text-black font-semibold hover:bg-black dark:hover:bg-gray-200 hover:scale-105 transition-all duration-300 shadow-xl shadow-gray-200 dark:shadow-none flex items-center gap-2">
-                            See How It Works <ArrowRight className="w-4 h-4" />
+                    {/* Buttons */}
+                    <div className="hero-buttons flex flex-wrap justify-center lg:justify-start gap-4">
+                        {/* Button 1: Filled Orange */}
+                        <button
+                            onClick={() => document.getElementById('solutions')?.scrollIntoView({ behavior: 'smooth' })}
+                            className="h-12 px-8 rounded-full bg-orange-500 hover:bg-orange-600 text-white font-medium text-base transition-all duration-300 hover:scale-105 flex items-center gap-2 shadow-lg shadow-orange-500/20"
+                        >
+                            Explore EQ-Alert <ChevronRight className="w-4 h-4" />
                         </button>
-                        <button className="h-14 px-8 rounded-2xl bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-300 font-semibold hover:bg-gray-50 dark:hover:bg-white/10 hover:border-gray-300 transition-all duration-300 flex items-center gap-2">
-                            <ShieldCheck className="w-4 h-4" /> System Status
+
+                        {/* Button 2: Outline Navy */}
+                        <button
+                            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                            className="h-12 px-8 rounded-full text-blue-900 dark:text-blue-300 border-2 border-blue-900 dark:border-blue-700 hover:bg-blue-900 hover:text-white dark:hover:bg-blue-800 dark:hover:text-white font-medium text-base transition-all duration-300 hover:scale-105 flex items-center gap-2"
+                        >
+                            Pilot EQ-Alert in Your Region
                         </button>
-                    </div>
-
-
-                </div>
-
-                <div className="relative h-[600px] hidden lg:flex items-center justify-center perspective-[1000px]">
-                    <div className="absolute inset-0 bg-blue-100/50 dark:bg-blue-900/20 rounded-full blur-3xl scale-75 animate-pulse transition-colors" />
-
-                    <div ref={cardsRef} className="relative z-10 w-80 transform rotate-y-[-12deg] rotate-x-[12deg] hover:rotate-0 transition-transform duration-700 ease-out preserve-3d">
-
-                        <div className="alert-card absolute top-[-80px] -right-12 w-full bg-white/60 dark:bg-zinc-900/60 backdrop-blur-md p-4 rounded-3xl border border-white/50 dark:border-white/10 shadow-lg z-0 transition-colors">
-                            <div className="flex items-center gap-3 mb-2">
-                                <div className="w-8 h-8 rounded-full bg-gray-100 dark:bg-white/10 flex items-center justify-center"><Globe className="w-4 h-4 text-gray-400" /></div>
-                                <div>
-                                    <div className="text-xs font-bold text-gray-800 dark:text-gray-200">Regional Scan</div>
-                                    <div className="text-[10px] text-gray-400">Sector 7 • Active</div>
-                                </div>
-                            </div>
-                            <div className="h-24 bg-gray-100/50 dark:bg-white/5 rounded-xl w-full"></div>
-                        </div>
-
-                        <div className="alert-card absolute top-6 -left-8 w-full bg-white/80 dark:bg-zinc-800/80 backdrop-blur-xl p-5 rounded-3xl border border-white/80 dark:border-white/10 shadow-xl z-10 transition-colors">
-                            <div className="flex justify-between items-center mb-4">
-                                <span className="text-xs font-bold text-amber-500 bg-amber-50 dark:bg-amber-900/20 px-2 py-1 rounded-lg">CAUTION</span>
-                                <span className="text-xs text-gray-400">10:42:05 AM</span>
-                            </div>
-                            <div className="text-2xl font-bold text-gray-900 dark:text-white mb-1">P-Wave Detected</div>
-                            <div className="text-sm text-gray-500 dark:text-gray-400">Analyzing magnitude signature...</div>
-                        </div>
-
-                        <div className="alert-card relative w-[110%] -left-[5%] bg-white/95 dark:bg-zinc-900/95 backdrop-blur-2xl p-6 rounded-[2rem] border border-red-500/20 dark:border-red-500/30 shadow-2xl shadow-red-500/10 dark:shadow-red-900/20 z-20 transition-colors">
-                            <div className="flex items-center gap-4 mb-6">
-                                <div className="w-12 h-12 rounded-2xl bg-red-500 flex items-center justify-center text-white shadow-lg shadow-red-500/30">
-                                    <Activity className="w-6 h-6 animate-pulse" />
-                                </div>
-                                <div>
-                                    <div className="text-sm font-bold text-red-500 uppercase tracking-wide">Critical Alert</div>
-                                    <div className="text-xs text-gray-400">EST. ARRIVAL: 24s</div>
-                                </div>
-                            </div>
-
-                            <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Earthquake<br />Detected</h3>
-                            <p className="text-gray-500 dark:text-gray-400 text-sm mb-6">Strong shaking expected. Drop, cover, and hold on immediately.</p>
-
-                            <div className="w-full bg-gray-100 dark:bg-white/10 h-2 rounded-full overflow-hidden">
-                                <div className="bg-red-500 w-3/4 h-full rounded-full" />
-                            </div>
-                        </div>
-
                     </div>
                 </div>
 
+                {/* Right: Visualization (Dashboard Mock) */}
+                <div className="flex items-center justify-center lg:justify-end w-full">
+                    <div ref={cardsRef} className="relative w-full max-w-lg perspective-[2000px]">
+
+                        {/* Background Decorative Blob */}
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-tr from-orange-100/50 to-blue-100/50 dark:from-orange-900/10 dark:to-blue-900/10 rounded-full blur-3xl -z-10" />
+
+                        {/* Main Dashboard Card */}
+                        <div className="relative w-full bg-white/90 dark:bg-zinc-900/90 backdrop-blur-xl p-6 md:p-8 rounded-[2rem] border border-white/50 dark:border-white/10 shadow-2xl shadow-black/10 z-20">
+
+                            {/* Header Bar */}
+                            <div className="flex justify-between items-center mb-8 border-b border-gray-100 dark:border-white/5 pb-4">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                                    <span className="text-xs font-bold text-gray-500 uppercase tracking-widest">Live Monitoring</span>
+                                </div>
+                                <div className="text-xs font-mono text-gray-400">NET-ID: NCR-004</div>
+                            </div>
+
+                            {/* Alert Content */}
+                            <div className="flex flex-col items-center text-center space-y-6">
+
+                                {/* Siren / Warning Icon */}
+                                <div className="relative">
+                                    <div className="absolute inset-0 bg-red-500 blur-xl opacity-20 animate-pulse rounded-full" />
+                                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-red-500 to-orange-600 flex items-center justify-center text-white shadow-xl shadow-red-500/30">
+                                        <Siren className="w-10 h-10 animate-bounce" />
+                                    </div>
+                                    {/* Ripple Effect */}
+                                    <div className="absolute inset-0 border-4 border-red-500 rounded-2xl animate-ping opacity-20" />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <h3 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white leading-tight">
+                                        EQ-Alert: <span className="text-red-600">WARNING</span>
+                                    </h3>
+                                    <p className="text-lg text-gray-600 dark:text-gray-300 font-medium">
+                                        Strong Shaking Expected in
+                                    </p>
+                                </div>
+
+                                {/* Countdown Timer */}
+                                <div className="text-6xl md:text-7xl font-bold font-mono tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-gray-900 to-gray-500 dark:from-white dark:to-gray-500">
+                                    30s
+                                </div>
+
+                                {/* Action Message */}
+                                <div className="px-6 py-3 bg-red-50 dark:bg-red-900/20 rounded-xl text-red-600 dark:text-red-400 font-bold text-sm uppercase tracking-wide animate-pulse">
+                                    Drop • Cover • Hold On
+                                </div>
+                            </div>
+
+                        </div>
+
+                        {/* Floating Small Card: Active Sensors */}
+                        <div className="absolute -bottom-6 -left-6 md:-left-12 bg-white dark:bg-zinc-800 p-4 rounded-2xl shadow-xl border border-gray-100 dark:border-white/5 z-30 flex items-center gap-4 animate-float">
+                            <div className="flex -space-x-2">
+                                {[1, 2, 3].map(i => (
+                                    <div key={i} className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 border-2 border-white dark:border-zinc-800 flex items-center justify-center text-[10px] font-bold text-blue-600 dark:text-blue-400">
+                                        S{i}
+                                    </div>
+                                ))}
+                            </div>
+                            <div>
+                                <div className="text-xs font-bold text-gray-900 dark:text-white">Active Nodes</div>
+                                <div className="text-[10px] text-gray-500">Processing real-time data</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            {/* Credibility Strip */}
+            <div className="container mx-auto px-6 mt-20 relative z-10">
+                <div className="max-w-6xl mx-auto bg-gradient-to-br from-gray-50/80 to-gray-100/80 dark:from-zinc-900/50 dark:to-zinc-800/50 backdrop-blur-md rounded-3xl border border-gray-200/50 dark:border-white/5 p-8 md:p-10 shadow-xl">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6">
+
+                        {/* Credibility Item 1: IIT Roorkee */}
+                        <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-2 group">
+                            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 flex items-center justify-center mb-3 transition-transform duration-300 group-hover:scale-110">
+                                <ShieldCheck className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                            </div>
+                            <p className="text-sm font-medium text-gray-700 dark:text-gray-300 leading-relaxed">
+                                Developed with research guidance from <span className="font-bold text-gray-900 dark:text-white">IIT Roorkee</span> (Earthquake Engineering).
+                            </p>
+                        </div>
+
+                        {/* Credibility Item 2: Government Engagement */}
+                        <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-2 group">
+                            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 flex items-center justify-center mb-3 transition-transform duration-300 group-hover:scale-110">
+                                <Globe className="w-6 h-6 text-green-600 dark:text-green-400" />
+                            </div>
+                            <p className="text-sm font-medium text-gray-700 dark:text-gray-300 leading-relaxed">
+                                Engaging with <span className="font-bold text-gray-900 dark:text-white">chambers and ministries</span> on disaster resilience and early warning pilots.
+                            </p>
+                        </div>
+
+                        {/* Credibility Item 3: PM's Call Alignment */}
+                        <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-2 group">
+                            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-100 to-red-100 dark:from-orange-900/30 dark:to-red-900/30 flex items-center justify-center mb-3 transition-transform duration-300 group-hover:scale-110">
+                                <Activity className="w-6 h-6 text-orange-600 dark:text-orange-400" />
+                            </div>
+                            <p className="text-sm font-medium text-gray-700 dark:text-gray-300 leading-relaxed">
+                                Aligned with <span className="font-bold text-gray-900 dark:text-white">Prime Minister's call</span> for indigenous EEW systems (IMD 150th Foundation Day).
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
             </div>
         </section>
     );

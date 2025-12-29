@@ -53,7 +53,6 @@ try {
     fs.writeFileSync(outputPath, fileContent);
     console.log(`Successfully extracted ${paths.length} paths to ${outputPath}`);
 
-    // Log centroids for key states to help with hotspot positioning
     const keyStates = ['INDL', 'INGJ', 'INMH', 'INAS', 'INMP'];
     const centroids = paths.filter(p => keyStates.includes(p.id)).map(p => ({ id: p.id, x: p.centerX, y: p.centerY }));
     console.log('Key Centroids:', JSON.stringify(centroids));

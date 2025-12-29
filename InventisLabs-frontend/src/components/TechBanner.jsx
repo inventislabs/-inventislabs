@@ -1,81 +1,115 @@
-import React, { useRef } from "react";
-import {
-    motion,
-    useScroll,
-    useSpring,
-    useTransform,
-    useMotionValue,
-    useVelocity,
-    useAnimationFrame
-} from "framer-motion";
+import React, { useLayoutEffect, useRef } from "react";
+import gsap from "gsap";
 
-const wrap = (min, max, v) => {
-    const rangeSize = max - min;
-    return ((((v - min) % rangeSize) + rangeSize) % rangeSize) + min;
-};
+const MarqueeRow = ({ children, direction = "left", speed = 25 }) => {
+    const containerRef = useRef(null);
+    const contentRef = useRef(null);
 
-function ParallaxText({ children, baseVelocity = 100 }) {
-    const baseX = useMotionValue(0);
-    const { scrollY } = useScroll();
-    const scrollVelocity = useVelocity(scrollY);
-    const smoothVelocity = useSpring(scrollVelocity, {
-        damping: 50,
-        stiffness: 400
-    });
-    const velocityFactor = useTransform(smoothVelocity, [0, 1000], [0, 5], {
-        clamp: false
-    });
+    useLayoutEffect(() => {
+        const container = containerRef.current;
+        const content = contentRef.current;
+        if (!container || !content) return;
 
-    // Seamless loop for 4 copies: wrap between 0% and -25%
-    const x = useTransform(baseX, (v) => `${wrap(0, -25, v)}%`);
+        // Clone content for seamless loop
+        const contentWidth = content.offsetWidth;
+        const clonesNeeded = Math.ceil(window.innerWidth / contentWidth) + 2;
 
-    const directionFactor = useRef(1);
-    useAnimationFrame((t, delta) => {
-        let moveBy = directionFactor.current * baseVelocity * (delta / 1000);
-
-        // Apply scroll velocity to the movement
-        if (velocityFactor.get() < 0) {
-            directionFactor.current = -1;
-        } else if (velocityFactor.get() > 0) {
-            directionFactor.current = 1;
+        // Clean up previous clones to avoid accumulation on re-renders if utilizing React Strict Mode heavily without cleanup
+        // But since this is appendChild, we should be careful. 
+        // A better React way is to use state for clones, but for pure DOM manipulation efficiency:
+        while (container.children.length > 1) {
+            container.removeChild(container.lastChild);
         }
 
-        moveBy += directionFactor.current * moveBy * velocityFactor.get();
+        for (let i = 0; i < clonesNeeded; i++) {
+            const clone = content.cloneNode(true);
+            container.appendChild(clone);
+        }
 
-        baseX.set(baseX.get() + moveBy);
-    });
+        let ctx = gsap.context(() => {
+            gsap.to(container, {
+                x: direction === "left" ? -contentWidth : 0,
+                duration: contentWidth / speed,
+                ease: "none",
+                repeat: -1,
+                // If moving right, we start at -contentWidth and move to 0
+                // If moving left, we start at 0 and move to -contentWidth
+                startAt: { x: direction === "left" ? 0 : -contentWidth },
+                modifiers: {
+                    x: gsap.utils.unitize(x => parseFloat(x) % contentWidth)
+                }
+            });
+        }, containerRef);
+
+        return () => ctx.revert();
+    }, [direction, speed]);
 
     return (
-        <div className="parallax overflow-hidden w-full m-0 whitespace-nowrap flex flex-nowrap py-2">
-            <motion.div className="scroller font-bold uppercase text-3xl sm:text-5xl md:text-7xl lg:text-8xl flex whitespace-nowrap flex-nowrap" style={{ x }}>
-                <span className="block mr-8 md:mr-24">{children}</span>
-                <span className="block mr-8 md:mr-24">{children}</span>
-                <span className="block mr-8 md:mr-24">{children}</span>
-                <span className="block mr-8 md:mr-24">{children}</span>
-            </motion.div>
+        <div className="overflow-hidden whitespace-nowrap flex w-full relative" style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}>
+            <div ref={containerRef} className="flex will-change-transform">
+                <div ref={contentRef} className="flex-shrink-0 flex items-center pr-8 md:pr-16">
+                    {children}
+                </div>
+            </div>
         </div>
     );
-}
+};
+
+// Simplified Continuous Slider Component
+const ContinuousSlider = ({ children, reverse = false, duration = 40 }) => {
+    const rowRef = useRef(null);
+
+    useLayoutEffect(() => {
+        const ctx = gsap.context(() => {
+            const el = rowRef.current;
+            // The first child is one set of content
+            const distance = -el.firstElementChild.offsetWidth;
+
+            if (reverse) {
+                gsap.set(el, { x: distance });
+            }
+
+            gsap.to(el, {
+                x: reverse ? 0 : distance,
+                duration: duration,
+                ease: "none",
+                repeat: -1
+            });
+        }, rowRef);
+        return () => ctx.revert();
+    }, [reverse, duration]);
+
+    return (
+        <div className="flex overflow-hidden relative w-full select-none" style={{ maskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)' }}>
+            <div ref={rowRef} className="flex flex-nowrap w-max will-change-transform">
+                {/* 4 Copies ensures coverage for wide screens */}
+                <div className="flex items-center shrink-0 pr-12 md:pr-24">{children}</div>
+                <div className="flex items-center shrink-0 pr-12 md:pr-24">{children}</div>
+                <div className="flex items-center shrink-0 pr-12 md:pr-24">{children}</div>
+                <div className="flex items-center shrink-0 pr-12 md:pr-24">{children}</div>
+            </div>
+        </div>
+    );
+};
 
 const TechBanner = () => {
     return (
-        <section className="py-10 md:py-20 bg-white dark:bg-black relative overflow-hidden flex flex-col gap-6 md:gap-10 transition-colors duration-500">
-            <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute top-0 left-0 w-16 md:w-32 h-full bg-gradient-to-r from-white dark:from-black to-transparent z-10 transition-colors" />
-                <div className="absolute top-0 right-0 w-16 md:w-32 h-full bg-gradient-to-l from-white dark:from-black to-transparent z-10 transition-colors" />
-            </div>
+        <section className="py-12 md:py-24 bg-white dark:bg-black overflow-hidden flex flex-col gap-10 md:gap-16 transition-colors duration-500 font-display">
 
-            <div className="relative z-0 text-gray-900/90 dark:text-white/90 hover:text-gray-900 dark:hover:text-white transition-colors duration-500">
-                <ParallaxText baseVelocity={-3}>
-                    Real-time Detection <span className="text-blue-600 dark:text-blue-500 inline-block mx-2 md:mx-4">•</span> Instant Alerts <span className="text-blue-600 dark:text-blue-500 inline-block mx-2 md:mx-4">•</span> Mass Coverage <span className="text-blue-600 dark:text-blue-500 inline-block mx-2 md:mx-4">•</span>
-                </ParallaxText>
-            </div>
+            {/* Top Row - Moves Left */}
+            <ContinuousSlider duration={35}>
+                <span className="text-5xl md:text-7xl lg:text-8xl font-bold uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-gray-500 to-gray-900 dark:from-white dark:via-gray-500 dark:to-white">
+                    Real-time Detection <span className="text-blue-600 dark:text-blue-500 mx-6 md:mx-12">•</span> Instant Alerts <span className="text-blue-600 dark:text-blue-500 mx-6 md:mx-12">•</span> Mass Coverage <span className="text-blue-600 dark:text-blue-500 mx-6 md:mx-12">•</span>
+                </span>
+            </ContinuousSlider>
 
-            <div className="relative z-0 text-gray-800 dark:text-gray-300 transition-colors">
-                <ParallaxText baseVelocity={3}>
-                    IoT Sensors <span className="text-purple-600 dark:text-purple-500 inline-block mx-2 md:mx-4">✦</span> AI Analysis <span className="text-purple-600 dark:text-purple-500 inline-block mx-2 md:mx-4">✦</span> Critical Warning <span className="text-purple-600 dark:text-purple-500 inline-block mx-2 md:mx-4">✦</span>
-                </ParallaxText>
-            </div>
+            {/* Bottom Row - Moves Right */}
+            <ContinuousSlider reverse={true} duration={45}>
+                <span className="text-5xl md:text-7xl lg:text-8xl font-bold uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-gray-500 via-gray-900 to-gray-500 dark:from-gray-500 dark:via-white dark:to-gray-500">
+                    IoT Sensors <span className="text-purple-600 dark:text-purple-500 mx-6 md:mx-12">✦</span> AI Analysis <span className="text-purple-600 dark:text-purple-500 mx-6 md:mx-12">✦</span> Critical Warning <span className="text-purple-600 dark:text-purple-500 mx-6 md:mx-12">✦</span>
+                </span>
+            </ContinuousSlider>
+
         </section>
     );
 };

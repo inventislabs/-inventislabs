@@ -27,6 +27,16 @@
   }
 }
 
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -116,4 +126,51 @@
 
 .font-cursive {
   font-family: 'Dancing Script', cursive;
+}
+
+/* 3D Transform Utilities */
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.perspective-2000 {
+  perspective: 2000px;
+}
+
+/* Custom Animations */
+@keyframes progress {
+  0% {
+    width: 0%;
+    opacity: 0;
+  }
+
+  50% {
+    width: 75%;
+    opacity: 1;
+  }
+
+  100% {
+    width: 75%;
+    opacity: 1;
+  }
+}
+
+.animate-progress {
+  animation: progress 2s ease-out forwards;
+}
+
+/* Apple-like smooth fade up override */
+.fade-up-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.fade-up-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 800ms, transform 800ms;
 }

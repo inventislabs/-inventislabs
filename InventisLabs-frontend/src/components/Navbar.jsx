@@ -1,264 +1,270 @@
-import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import gsap from 'gsap';
-import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
-import { Moon, Sun } from 'lucide-react';
-
-gsap.registerPlugin(ScrollToPlugin);
+import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import gsap from "gsap";
+import { Moon, Sun, Menu, X, ArrowRight } from "lucide-react";
 
 const Navbar = () => {
-    const [active, setActive] = useState('Home');
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [isDark, setIsDark] = useState(false);
-    const navRef = useRef(null);
-    const location = useLocation();
-    const navigate = useNavigate();
+  const [active, setActive] = useState("Home");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isDark, setIsDark] = useState(false);
 
-    // Theme toggle logic
-    useEffect(() => {
-        if (localStorage.theme === 'dark') {
-            setIsDark(true);
-            document.documentElement.classList.add('dark');
-        } else {
-            setIsDark(false);
-            document.documentElement.classList.remove('dark');
+  // Refs for animations
+  const navRef = useRef(null);
+  const mobileMenuRef = useRef(null);
+  const mobileMenuContentRef = useRef(null);
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Navigation Items per requirement
+  const navItems = [
+    { name: "Home", path: "/" },
+    { name: "Solutions", path: "/solutions" },
+    { name: "Technology", path: "/technology" },
+    { name: "About", path: "/about" },
+    { name: "Media & Resources", path: "/media" },
+    { name: "Contact / Pilot With Us", path: "/contact" },
+  ];
+
+  // Theme toggle logic (persisted)
+  useEffect(() => {
+    if (
+      localStorage.theme === "dark" ||
+      (!localStorage.theme &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ) {
+      setIsDark(true);
+      document.documentElement.classList.add("dark");
+    } else {
+      setIsDark(false);
+      document.documentElement.classList.remove("dark");
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    if (isDark) {
+      document.documentElement.classList.remove("dark");
+      localStorage.theme = "light";
+      setIsDark(false);
+    } else {
+      document.documentElement.classList.add("dark");
+      localStorage.theme = "dark";
+      setIsDark(true);
+    }
+  };
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = isMobileMenuOpen ? "hidden" : "unset";
+  }, [isMobileMenuOpen]);
+
+  // Update Active State based on Path
+  useEffect(() => {
+    const currentPath = location.pathname;
+    if (currentPath === "/") {
+      setActive("Home");
+    } else if (currentPath.startsWith("/solutions")) {
+      setActive("Solutions");
+    } else if (currentPath.startsWith("/technology")) {
+      setActive("Technology");
+    } else if (currentPath.startsWith("/about")) {
+      setActive("About");
+    } else if (currentPath.startsWith("/media")) {
+      setActive("Media & Resources");
+    } else if (currentPath.startsWith("/contact")) {
+      setActive("Contact / Pilot With Us");
+    }
+  }, [location.pathname]);
+
+  // Initial Reveal Animation
+  useLayoutEffect(() => {
+    let ctx = gsap.context(() => {
+      gsap.fromTo(
+        navRef.current,
+        { y: -20, opacity: 0, scale: 0.98 },
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 0.8,
+          ease: "power3.out",
+          delay: 0.5,
         }
-    }, []);
+      );
+    });
+    return () => ctx.revert();
+  }, []);
 
-    const toggleTheme = () => {
-        if (isDark) {
-            document.documentElement.classList.remove('dark');
-            localStorage.theme = 'light';
-            setIsDark(false);
-        } else {
-            document.documentElement.classList.add('dark');
-            localStorage.theme = 'dark';
-            setIsDark(true);
+  // Mobile Menu Animation
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      gsap.to(mobileMenuRef.current, {
+        y: 0,
+        opacity: 1,
+        duration: 0.5,
+        ease: "power4.out",
+        pointerEvents: "auto",
+      });
+      gsap.fromTo(
+        mobileMenuContentRef.current.children,
+        { y: 20, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.4,
+          stagger: 0.05,
+          delay: 0.1,
+          ease: "power2.out",
         }
-    };
+      );
+    } else {
+      gsap.to(mobileMenuRef.current, {
+        y: "-100%",
+        opacity: 0,
+        duration: 0.4,
+        ease: "power3.in",
+        pointerEvents: "none",
+      });
+    }
+  }, [isMobileMenuOpen]);
 
-    // Lock body scroll when mobile menu is open
-    useEffect(() => {
-        if (isMobileMenuOpen) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'unset';
-        }
-    }, [isMobileMenuOpen]);
+  const handleClick = (e, item) => {
+    e.preventDefault();
+    setIsMobileMenuOpen(false);
+    navigate(item.path);
+  };
 
-    // Update active based on scroll or path
-    useEffect(() => {
-        if (location.pathname === '/') {
-            const handleScroll = () => {
-                const sections = ['about', 'technology', 'coverage', 'contact'];
-                let current = 'Home';
+  return (
+    <>
+      <div
+        ref={navRef}
+        className="fixed top-4 md:top-6 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none opacity-0"
+      >
+        <nav className="pointer-events-auto flex items-center justify-between p-2 pl-6 bg-white/80 dark:bg-black/80 backdrop-blur-xl border border-white/20 dark:border-white/10 rounded-full shadow-2xl shadow-black/5 ring-1 ring-black/5 transition-all duration-300 w-full max-w-6xl">
 
-                // Check if at top
-                if (window.scrollY < 100) {
-                    setActive('Home');
-                    return;
-                }
+          {/* Logo */}
+          <Link
+            to="/"
+            className="flex items-center gap-2 text-gray-900 dark:text-white font-bold text-lg md:text-xl tracking-tight mr-4 md:mr-8 font-display whitespace-nowrap"
+          >
+            <span>InventisLabs</span>
+            {/* <span className="text-gray-400 font-light">+</span> */}
+            {/* <span className="text-blue-600 dark:text-blue-400">EQ-Alert</span> */}
+          </Link>
 
-                for (const section of sections) {
-                    const el = document.getElementById(section);
-                    if (el) {
-                        const rect = el.getBoundingClientRect();
-                        if (rect.top <= 200 && rect.bottom >= 200) {
-                            current = section.charAt(0).toUpperCase() + section.slice(1);
-                        }
+          {/* Desktop Menu */}
+          <ul className="hidden lg:flex items-center gap-1 bg-gray-100/50 dark:bg-white/5 p-1 rounded-full">
+            {navItems.map((item) => (
+              <li key={item.name}>
+                <Link
+                  to={item.path}
+                  className={`relative px-3 py-2 text-xs font-medium transition-all duration-300 rounded-full block tracking-wide cursor-pointer whitespace-nowrap
+                                        ${active === item.name
+                      ? "text-gray-900 dark:text-white bg-white dark:bg-white/10 shadow-sm"
+                      : "text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/5"
                     }
-                }
-                setActive(current);
-            };
-
-            window.addEventListener('scroll', handleScroll);
-            return () => window.removeEventListener('scroll', handleScroll);
-        } else {
-            // For other routes, active state logic is simple or unset
-            setActive('');
-        }
-    }, [location.pathname]);
-
-    // GSAP Entrance Animation
-    useLayoutEffect(() => {
-        let ctx = gsap.context(() => {
-            gsap.fromTo(navRef.current,
-                { y: -100, opacity: 0 },
-                { y: 0, opacity: 1, duration: 1, ease: "power3.out", delay: 0.1 }
-            );
-        });
-        return () => ctx.revert();
-    }, []);
-
-    const navItems = [
-        { name: 'Home', path: '/' },
-        { name: 'About', path: '/about' },
-        { name: 'Technology', path: '/technology' },
-        { name: 'Coverage', path: '/coverage' },
-        { name: 'Contact', path: '/contact' },
-    ];
-
-    const handleClick = (e, item) => {
-        e.preventDefault();
-
-        // Mobile closing logic
-        if (isMobileMenuOpen) setIsMobileMenuOpen(false);
-
-        setActive(item.name);
-
-        const targetId = item.name.toLowerCase();
-
-        if (item.name === 'Home') {
-            if (location.pathname !== '/') {
-                navigate('/');
-                // Need to wait for navigation then scroll to top
-                setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 100);
-            } else {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-            return;
-        }
-
-        const scrollToSection = () => {
-            const element = document.getElementById(targetId);
-            if (element) {
-                gsap.to(window, { duration: 1, scrollTo: { y: element, offsetY: 100 }, ease: "power2.out" });
-            }
-        };
-
-        if (location.pathname !== '/') {
-            navigate('/');
-            // Wait for navigation to complete before scrolling
-            setTimeout(scrollToSection, 500);
-        } else {
-            scrollToSection();
-        }
-    };
-
-    const handleHover = (e) => {
-        gsap.to(e.currentTarget, { scale: 1.05, duration: 0.2, ease: "power1.out" });
-    };
-
-    const handleHoverExit = (e) => {
-        gsap.to(e.currentTarget, { scale: 1, duration: 0.2, ease: "power1.out" });
-    };
-
-    return (
-        <>
-            <div ref={navRef} className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-[800px] pointer-events-none opacity-0">
-                <nav className="pointer-events-auto flex items-center justify-between pl-6 pr-2 py-2 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-2xl border border-white/40 dark:border-white/10 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.04)] ring-1 ring-black/5 transition-all duration-300">
-
-                    <div className="flex-shrink-0 cursor-pointer group mr-8">
-                        <Link to="/" onClick={(e) => handleClick(e, { name: 'Home' })} className="text-gray-900 dark:text-gray-100 font-bold text-2xl tracking-wide transition-colors group-hover:text-black dark:group-hover:text-white font-cursive">
-                            Inventis Labs
-                        </Link>
-                    </div>
-
-                    <ul className="hidden md:flex items-center gap-1">
-                        {navItems.map((item) => (
-                            <li key={item.name}>
-                                <a
-                                    href={item.path}
-                                    onClick={(e) => handleClick(e, item)}
-                                    onMouseEnter={handleHover}
-                                    onMouseLeave={handleHoverExit}
-                                    className={`relative px-5 py-2.5 text-xs font-semibold transition-all duration-300 rounded-full block tracking-wide cursor-pointer
-                                        ${active === item.name
-                                            ? 'text-white bg-black dark:bg-white dark:text-black shadow-lg shadow-black/10'
-                                            : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-black/5 dark:hover:bg-white/10'
-                                        }
                                     `}
-                                >
-                                    {item.name}
-                                </a>
-                            </li>
-                        ))}
-                    </ul>
+                >
+                  {item.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
 
-                    <button
-                        onClick={toggleTheme}
-                        className="hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 dark:bg-white/10 text-gray-900 dark:text-gray-100 hover:scale-105 transition-all ml-4"
-                        aria-label="Toggle Theme"
-                    >
-                        {isDark ? <Sun size={18} /> : <Moon size={18} />}
-                    </button>
+          {/* Actions */}
+          <div className="flex items-center gap-2 ml-auto md:ml-4">
 
-                    <div className="flex md:hidden">
-                        <button
-                            onClick={() => setIsMobileMenuOpen(true)}
-                            className="p-3 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white focus:outline-none bg-gray-100/50 dark:bg-white/10 rounded-full hover:bg-gray-100 dark:hover:bg-white/20 transition-colors"
-                            aria-label="Open Menu"
-                        >
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
-                            </svg>
-                        </button>
-                    </div>
-                </nav>
-            </div>
-
-            <div
-                className={`fixed inset-0 z-[60] bg-white/95 dark:bg-zinc-900/95 backdrop-blur-2xl transition-all duration-500 transform ${isMobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full pointer-events-none'
-                    }`}
+            {/* Desktop CTA */}
+            <button
+              onClick={() => navigate('/contact')}
+              className="hidden lg:flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-full text-xs font-bold uppercase tracking-wider transition-all shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 active:scale-95"
             >
-                <div className="flex flex-col h-full p-6">
-                    <div className="flex items-center justify-between mb-12 mt-2">
-                        <span className="text-gray-900 dark:text-white font-bold text-3xl tracking-wide font-cursive">
-                            Inventis Labs
-                        </span>
+              Pilot EQ-Alert
+            </button>
 
-                        <div className="flex items-center gap-4">
-                            <button
-                                onClick={toggleTheme}
-                                className="p-3 rounded-full bg-gray-100 dark:bg-white/10 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-white/20 transition-colors"
-                            >
-                                {isDark ? <Sun size={20} /> : <Moon size={20} />}
-                            </button>
+            {/* Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              className="flex items-center justify-center w-9 h-9 rounded-full bg-gray-100/50 dark:bg-white/10 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-white/20 transition-all"
+              aria-label="Toggle Theme"
+            >
+              {isDark ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
 
-                            <button
-                                onClick={() => setIsMobileMenuOpen(false)}
-                                className="p-3 -mr-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white focus:outline-none rounded-full bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 transition-colors"
-                                aria-label="Close Menu"
-                            >
-                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
+            {/* Mobile Toggle */}
+            <button
+              onClick={() => setIsMobileMenuOpen(true)}
+              className="lg:hidden p-2 text-gray-900 dark:text-white bg-gray-100 dark:bg-white/10 rounded-full"
+            >
+              <Menu size={20} />
+            </button>
+          </div>
+        </nav>
+      </div>
 
-                    <ul className="flex flex-col gap-4">
-                        {navItems.map((item, index) => (
-                            <li key={item.name}
-                                style={{
-                                    opacity: isMobileMenuOpen ? 1 : 0,
-                                    transform: isMobileMenuOpen ? 'translateY(0)' : 'translateY(20px)',
-                                    transition: `all 0.5s cubic-bezier(0.16, 1, 0.3, 1) ${0.1 + index * 0.05}s`
-                                }}
-                            >
-                                <a
-                                    href={item.path}
-                                    onClick={(e) => handleClick(e, item)}
-                                    className={`block text-3xl font-semibold tracking-tight
-                                        ${active === item.name
-                                            ? 'text-black dark:text-white'
-                                            : 'text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300'
-                                        }
-                                    `}
-                                >
-                                    {item.name}
-                                </a>
-                            </li>
-                        ))}
-                    </ul>
+      {/* Mobile Sticky CTA */}
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 lg:hidden w-[90%] max-w-sm">
+        <button
+          onClick={() => {
+            setIsMobileMenuOpen(false);
+            navigate('/contact');
+          }}
+          className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-blue-600/90 hover:bg-blue-700 text-white rounded-full font-bold text-sm tracking-wide shadow-xl backdrop-blur-md transition-transform active:scale-95"
+        >
+          Pilot EQ-Alert <ArrowRight size={16} />
+        </button>
+      </div>
 
-                    <div className="mt-auto mb-8 text-sm text-gray-400 font-medium">
-                        © 2024 Inventis Labs
-                    </div>
-                </div>
-            </div>
-        </>
-    );
+      {/* Mobile Menu Overlay */}
+      <div
+        ref={mobileMenuRef}
+        className="fixed inset-0 z-[60] bg-[#F5F5F7] dark:bg-black opacity-0 pointer-events-none flex flex-col"
+        style={{ transform: "translateY(-100%)" }}
+      >
+        <div className="flex items-center justify-between p-6 md:p-8">
+          <span className="flex items-center gap-2 text-gray-900 dark:text-white font-bold text-xl tracking-tight font-display">
+            <span>InventisLabs</span>
+            <span className="text-gray-400">+</span>
+            <span className="text-blue-600 dark:text-blue-400">EQ-Alert</span>
+          </span>
+          <button
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="p-2 rounded-full bg-gray-200 dark:bg-white/10 text-gray-900 dark:text-white hover:bg-gray-300 dark:hover:bg-white/20 transition-colors"
+          >
+            <X size={24} />
+          </button>
+        </div>
+
+        <div
+          ref={mobileMenuContentRef}
+          className="flex-1 flex flex-col justify-center px-6 md:px-8 space-y-4"
+        >
+          {navItems.map((item) => (
+            <Link
+              key={item.name}
+              to={item.path}
+              onClick={(e) => {
+                setIsMobileMenuOpen(false);
+                navigate(item.path);
+              }}
+              className={`text-3xl md:text-5xl font-bold tracking-tight py-2 border-b border-gray-100 dark:border-white/5
+                                ${active === item.name
+                  ? "text-blue-600 dark:text-blue-500"
+                  : "text-gray-900 dark:text-white"
+                }
+                            `}
+            >
+              {item.name}
+            </Link>
+          ))}
+        </div>
+
+        <div className="p-6 md:p-8 text-sm text-gray-400 font-medium">
+          © 2024 Inventis Labs. All rights reserved.
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default Navbar;
