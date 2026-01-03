@@ -48,7 +48,7 @@ const Footer = () => {
             <div className="max-w-7xl mx-auto px-6 py-16">
 
                 {/* ================= GRID ================= */}
-                <div className="grid gap-12 lg:grid-cols-4">
+                <div className="grid gap-8 md:gap-12 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
 
                     {/* ---------- Brand ---------- */}
                     <div>

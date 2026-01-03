@@ -63,7 +63,7 @@ const Coverage = () => {
                     whileInView="visible"
                     viewport={{ once: true }}
                     variants={fadeInUp}
-                    className="text-center max-w-3xl mx-auto mb-20"
+                    className="text-center max-w-3xl mx-auto mb-12 md:mb-20"
                 >
                     <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 shadow-sm transition-colors mb-6">
                         <span className="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
@@ -79,7 +79,7 @@ const Coverage = () => {
                     </p>
                 </motion.div>
 
-                <div className="grid lg:grid-cols-12 gap-8 lg:gap-16 items-center">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
 
                     {/* Interactive Map Visual */}
                     <motion.div
@@ -89,7 +89,7 @@ const Coverage = () => {
                         className="lg:col-span-7 relative flex justify-center"
                     >
                         {/* Map Container */}
-                        <div className="relative w-full max-w-xl aspect-[4/5] bg-white/60 dark:bg-zinc-900/60 rounded-[3rem] border-2 border-white dark:border-white/20 shadow-2xl shadow-blue-900/5 dark:shadow-none p-4 md:p-8 backdrop-blur-xl flex items-center justify-center transition-colors">
+                        <div className="relative w-full max-w-xl aspect-[4/5] bg-white/60 dark:bg-zinc-900/60 rounded-[2rem] md:rounded-[3rem] border-2 border-white dark:border-white/20 shadow-2xl shadow-blue-900/5 dark:shadow-none p-4 md:p-8 backdrop-blur-xl flex items-center justify-center transition-colors">
 
                             {/* The Code-Based SVG Map */}
                             <IndiaMap

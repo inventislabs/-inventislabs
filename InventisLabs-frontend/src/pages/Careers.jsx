@@ -73,7 +73,7 @@ const Careers = () => {
             <div className="max-w-6xl mx-auto px-6">
 
                 {/* Header */}
-                <div className="careers-header text-center mb-20">
+                <div className="careers-header text-center mb-12 md:mb-20">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-gray-300 text-xs font-semibold uppercase tracking-wide mb-6">
                         <Briefcase className="w-3 h-3" />
                         <span>Careers</span>

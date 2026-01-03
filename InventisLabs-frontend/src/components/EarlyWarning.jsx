@@ -9,7 +9,7 @@ const EarlyWarning = () => {
             <div className="max-w-7xl mx-auto px-6">
 
                 {/* Intro Block */}
-                <div className="text-center max-w-4xl mx-auto mb-16">
+                <div className="text-center max-w-4xl mx-auto mb-12 md:mb-16">
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-sm font-semibold uppercase tracking-wide mb-6">
                         <ShieldAlert className="w-4 h-4" /> Section A
                     </div>
@@ -28,8 +28,8 @@ const EarlyWarning = () => {
                 </div>
 
                 {/* Architecture Illustration */}
-                <div className="mb-20">
-                    <div className="bg-gradient-to-br from-gray-50 to-blue-50/30 dark:from-zinc-900 dark:to-blue-950/20 rounded-3xl p-8 md:p-12 border border-gray-200 dark:border-white/10 shadow-xl">
+                <div className="mb-12 md:mb-20">
+                    <div className="bg-gradient-to-br from-gray-50 to-blue-50/30 dark:from-zinc-900 dark:to-blue-950/20 rounded-3xl p-6 md:p-12 border border-gray-200 dark:border-white/10 shadow-xl">
 
                         <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-8 text-center">
                             System Architecture
@@ -111,7 +111,7 @@ const EarlyWarning = () => {
                 {/* Tab Content */}
                 <div className="max-w-5xl mx-auto">
                     {activeTab === 'government' && (
-                        <div className="bg-gradient-to-br from-white to-blue-50/30 dark:from-zinc-900 dark:to-blue-950/10 rounded-3xl p-8 md:p-12 border border-gray-200 dark:border-white/10 shadow-xl">
+                        <div className="bg-gradient-to-br from-white to-blue-50/30 dark:from-zinc-900 dark:to-blue-950/10 rounded-3xl p-6 md:p-12 border border-gray-200 dark:border-white/10 shadow-xl">
                             <div className="flex items-center gap-3 mb-6">
                                 <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
                                     <Landmark className="w-6 h-6 text-white" />
@@ -162,7 +162,7 @@ const EarlyWarning = () => {
                     )}
 
                     {activeTab === 'industry' && (
-                        <div className="bg-gradient-to-br from-white to-orange-50/30 dark:from-zinc-900 dark:to-orange-950/10 rounded-3xl p-8 md:p-12 border border-gray-200 dark:border-white/10 shadow-xl">
+                        <div className="bg-gradient-to-br from-white to-orange-50/30 dark:from-zinc-900 dark:to-orange-950/10 rounded-3xl p-6 md:p-12 border border-gray-200 dark:border-white/10 shadow-xl">
                             <div className="flex items-center gap-3 mb-6">
                                 <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center">
                                     <Building2 className="w-6 h-6 text-white" />

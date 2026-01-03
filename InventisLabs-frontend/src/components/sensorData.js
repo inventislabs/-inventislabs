@@ -1,60 +1,60 @@
 const sensorNodes = [
-    {
-        id: "delhi",
-        name: "Delhi NCR",
-        zone: "IV",
-        nodes: 120,
-        lat: 28.6139,
-        lng: 77.2090
-    },
-    {
-        id: "dehradun",
-        name: "Uttarakhand",
-        zone: "IV",
-        nodes: 80,
-        lat: 30.3165,
-        lng: 78.0322
-    },
-    {
-        id: "guwahati",
-        name: "Guwahati",
-        zone: "V",
-        nodes: 180,
-        lat: 26.1445,
-        lng: 91.7362
-    },
-    {
-        id: "shillong",
-        name: "Shillong Plateau",
-        zone: "V",
-        nodes: 120,
-        lat: 25.5788,
-        lng: 91.8933
-    },
-    {
-        id: "kutch",
-        name: "Kutch",
-        zone: "IV",
-        nodes: 90,
-        lat: 23.7337,
-        lng: 69.8597
-    },
-    {
-        id: "mumbai",
-        name: "Mumbai",
-        zone: "III",
-        nodes: 110,
-        lat: 19.0760,
-        lng: 72.8777
-    },
-    {
-        id: "bhopal",
-        name: "Central India",
-        zone: "III",
-        nodes: 70,
-        lat: 23.2599,
-        lng: 77.4126
-    }
+  {
+    id: "delhi",
+    name: "Delhi NCR",
+    zone: "IV",
+    nodes: 120,
+    lat: 28.7041,
+    lng: 77.1025,
+  },
+  {
+    id: "dehradun",
+    name: "Uttarakhand",
+    zone: "IV",
+    nodes: 80,
+    lat: 30.0668,
+    lng: 79.0193,
+  },
+  {
+    id: "guwahati",
+    name: "Guwahati",
+    zone: "V",
+    nodes: 180,
+    lat: 26.1445,
+    lng: 91.7362,
+  },
+  {
+    id: "shillong",
+    name: "Shillong Plateau",
+    zone: "V",
+    nodes: 120,
+    lat: 25.5788,
+    lng: 91.8933,
+  },
+  {
+    id: "kutch",
+    name: "Kutch",
+    zone: "IV",
+    nodes: 90,
+    lat: 23.2156,
+    lng: 69.6293,
+  },
+  {
+    id: "mumbai",
+    name: "Mumbai",
+    zone: "III",
+    nodes: 110,
+    lat: 19.076,
+    lng: 72.8777,
+  },
+  {
+    id: "bhopal",
+    name: "Central India",
+    zone: "III",
+    nodes: 70,
+    lat: 23.2599,
+    lng: 77.4126,
+  },
 ];
 
 export default sensorNodes;

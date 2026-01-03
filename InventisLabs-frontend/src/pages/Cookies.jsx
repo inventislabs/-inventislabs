@@ -45,12 +45,12 @@ const Cookies = () => {
         <div ref={containerRef} className="min-h-screen bg-white dark:bg-black transition-colors duration-500 font-display pt-32 pb-24">
             <div className="max-w-4xl mx-auto px-6">
 
-                <div className="policy-header text-center mb-20">
+                <div className="policy-header text-center mb-12 md:mb-20">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-gray-300 text-xs font-semibold uppercase tracking-wide mb-6">
                         <Globe className="w-3 h-3" />
                         <span>Policy</span>
                     </div>
-                    <h1 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight">
+                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight">
                         Cookie Policy
                     </h1>
                     <p className="text-xl text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
