@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useRef, useEffect, useLayoutEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+gsap.registerPlugin(ScrollTrigger);
 import Footer from "../components/Footer";
 import {
   Target,
@@ -12,6 +15,79 @@ import {
 } from "lucide-react";
 
 const AboutPage = () => {
+  const videoRef = useRef(null);
+
+  const impactRef = useRef(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Set volume to 100%
+    video.volume = 1.0;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            video.play().catch((err) => console.log("Autoplay prevented:", err));
+          } else {
+            video.pause();
+          }
+        });
+      },
+      { threshold: 0.5 } // Play when 50% visible
+    );
+
+    observer.observe(video);
+
+    return () => observer.disconnect();
+  }, []);
+
+  useLayoutEffect(() => {
+    let ctx = gsap.context(() => {
+      // Impact Stats Animation
+      const statItems = gsap.utils.toArray(".impact-stat");
+
+      statItems.forEach((item) => {
+        const numberEl = item.querySelector(".stat-number");
+        const targetValue = parseInt(numberEl.getAttribute("data-value"), 10);
+        const suffix = numberEl.getAttribute("data-suffix") || "";
+
+        gsap.from(item, {
+          y: 50,
+          opacity: 0,
+          duration: 1,
+          scrollTrigger: {
+            trigger: item,
+            start: "top 85%",
+            toggleActions: "play none none reverse",
+          },
+        });
+
+        // Counter Animation
+        ScrollTrigger.create({
+          trigger: item,
+          start: "top 85%",
+          once: true,
+          onEnter: () => {
+            gsap.to(numberEl, {
+              innerHTML: targetValue,
+              duration: 2,
+              ease: "power2.out",
+              snap: { innerHTML: 1 },
+              onUpdate: function () {
+                this.targets()[0].innerHTML = Math.ceil(this.targets()[0].innerHTML) + suffix;
+              }
+            });
+          }
+        });
+      });
+
+    }, impactRef);
+
+    return () => ctx.revert();
+  }, []);
   return (
     <div className="min-h-screen bg-white dark:bg-black text-[#1d1d1f] dark:text-white font-display transition-colors duration-500">
       {/* Hero Section */}
@@ -59,73 +135,108 @@ const AboutPage = () => {
 
       {/* Story Section */}
       <section className="py-16 sm:py-20 md:py-24 lg:py-28 px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 sm:gap-12 md:gap-16 lg:gap-20">
-          <div className="story-item">
-            <h2 className="text-4xl md:text-5xl font-bold mb-8 leading-tight">
-              Born from Necessity & Innovation
+        <div className="max-w-7xl mx-auto">
+          {/* Video Section - Company Story */}
+          <div className="mb-16 md:mb-20 group">
+            <h2 className="text-4xl md:text-5xl font-bold mb-8 text-center leading-tight bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              Our Story
             </h2>
-            <div className="space-y-6 text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
-              <p>
-                InventisLabs is not a typical Silicon Valley-style startup. We
-                are a{" "}
-                <span className="font-semibold text-gray-900 dark:text-white">
-                  deep-tech company rooted in Uttar Pradesh
-                </span>
-                , driven by the reality of India's seismic vulnerability.
-              </p>
-              <p>
-                Seeing the gaps in existing disaster management infrastructure,
-                we set out to build a solution that is not only technologically
-                advanced but also{" "}
-                <span className="font-semibold text-gray-900 dark:text-white">
-                  economically viable for mass deployment
-                </span>{" "}
-                in Indian cities.
-              </p>
-              <p>
-                Working closely with research guidance from{" "}
-                <span className="font-semibold text-gray-900 dark:text-white">
-                  IIT Roorkee's Earthquake Engineering experts
-                </span>
-                , we have developed a system that rivals global standards while
-                being 100% indigenous.
-              </p>
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-gray-200 dark:border-blue-500/20 bg-gradient-to-br from-gray-900 to-black hover:shadow-blue-500/20 hover:scale-[1.02] transition-all duration-500">
+              {/* Gradient Overlay for Premium Look */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 pointer-events-none" />
+
+              <video
+                ref={videoRef}
+                controls
+                loop
+                playsInline
+                className="w-full h-auto relative z-0 transition-transform duration-500"
+                style={{
+                  filter: 'contrast(1.05) brightness(0.98)',
+                }}
+              >
+                <source src="/src/assets/Inventis Story.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+
+              {/* Custom Play Indicator */}
+              <div className="absolute top-4 right-4 z-20 bg-blue-600/90 backdrop-blur-sm px-4 py-2 rounded-full text-white text-xs font-bold uppercase tracking-wider shadow-lg opacity-0 group-hover:opacity-100 transition-opacity">
+                Featured Video
+              </div>
             </div>
+            <p className="text-center text-gray-600 dark:text-gray-400 mt-6 text-base font-bold">
+              <span className="text-blue-600 dark:text-blue-400">PM Modi</span> tells about Earthquake Early Warning detection system
+            </p>
           </div>
 
-          {/* Timeline */}
-          <div className="story-item bg-gradient-to-br from-gray-50 to-blue-50/30 dark:from-zinc-900 dark:to-blue-950/10 rounded-3xl p-6 md:p-10 border border-gray-200 dark:border-white/10">
-            <h3 className="text-2xl font-bold mb-8">Our Journey</h3>
-            <div className="relative border-l-2 border-gray-300 dark:border-zinc-700 space-y-10 pl-8">
-              <div className="relative">
-                <div className="absolute -left-[41px] top-1 w-6 h-6 rounded-full bg-blue-600 border-4 border-white dark:border-zinc-900"></div>
-                <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
-                  2021
-                </h4>
-                <p className="text-gray-600 dark:text-gray-400 text-sm">
-                  Concept & Early R&D. Validating MEMS sensor feasibility for
-                  Indian conditions.
+          <div className="grid md:grid-cols-2 gap-10 sm:gap-12 md:gap-16 lg:gap-20">
+            <div className="story-item">
+              <h2 className="text-4xl md:text-5xl font-bold mb-8 leading-tight">
+                Born from Necessity & Innovation
+              </h2>
+              <div className="space-y-6 text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
+                <p>
+                  InventisLabs is not a typical Silicon Valley-style startup. We
+                  are a{" "}
+                  <span className="font-semibold text-gray-900 dark:text-white">
+                    deep-tech company rooted in Uttar Pradesh
+                  </span>
+                  , driven by the reality of India's seismic vulnerability.
+                </p>
+                <p>
+                  Seeing the gaps in existing disaster management infrastructure,
+                  we set out to build a solution that is not only technologically
+                  advanced but also{" "}
+                  <span className="font-semibold text-gray-900 dark:text-white">
+                    economically viable for mass deployment
+                  </span>{" "}
+                  in Indian cities.
+                </p>
+                <p>
+                  Working closely with research guidance from{" "}
+                  <span className="font-semibold text-gray-900 dark:text-white">
+                    IIT Roorkee's Earthquake Engineering experts
+                  </span>
+                  , we have developed a system that rivals global standards while
+                  being 100% indigenous.
                 </p>
               </div>
-              <div className="relative">
-                <div className="absolute -left-[41px] top-1 w-6 h-6 rounded-full bg-indigo-600 border-4 border-white dark:border-zinc-900"></div>
-                <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
-                  2023
-                </h4>
-                <p className="text-gray-600 dark:text-gray-400 text-sm">
-                  Field-ready prototypes & lab testing at IIT Roorkee. First
-                  successful pilot deployments.
-                </p>
-              </div>
-              <div className="relative">
-                <div className="absolute -left-[41px] top-1 w-6 h-6 rounded-full bg-purple-600 border-4 border-white dark:border-zinc-900 animate-pulse"></div>
-                <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
-                  2024 - Present
-                </h4>
-                <p className="text-gray-600 dark:text-gray-400 text-sm">
-                  Commercial launch of EQ-Alert, policy engagement, and
-                  expansion to 1,300+ sensor nodes.
-                </p>
+            </div>
+
+            {/* Timeline */}
+            <div className="story-item bg-gradient-to-br from-gray-50 to-blue-50/30 dark:from-zinc-900 dark:to-blue-950/10 rounded-3xl p-6 md:p-10 border border-gray-200 dark:border-white/10">
+              <h3 className="text-2xl font-bold mb-8">Our Journey</h3>
+              <div className="relative border-l-2 border-gray-300 dark:border-zinc-700 space-y-10 pl-8">
+                <div className="relative">
+                  <div className="absolute -left-[41px] top-1 w-6 h-6 rounded-full bg-blue-600 border-4 border-white dark:border-zinc-900"></div>
+                  <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
+                    2021
+                  </h4>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm">
+                    Concept & Early R&D. Validating MEMS sensor feasibility for
+                    Indian conditions.
+                  </p>
+                </div>
+                <div className="relative">
+                  <div className="absolute -left-[41px] top-1 w-6 h-6 rounded-full bg-indigo-600 border-4 border-white dark:border-zinc-900"></div>
+                  <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
+                    2023
+                  </h4>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm">
+                    Field-ready prototypes & lab testing at IIT Roorkee. First
+                    successful pilot deployments.
+                  </p>
+                </div>
+                <div className="relative">
+                  <div className="absolute -left-[41px] top-1 w-6 h-6 rounded-full bg-purple-600 border-4 border-white dark:border-zinc-900 animate-pulse"></div>
+                  <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
+                    2024 - Present
+                  </h4>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm">
+                    Commercial launch of EQ-Alert, policy engagement, and
+                    expansion to 1,300+ sensor nodes.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -192,49 +303,82 @@ const AboutPage = () => {
       </section>
 
       {/* Impact Stats */}
-      <section className="py-24 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+      <section ref={impactRef} className="py-24 px-6 relative overflow-hidden">
+        {/* Background Glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-500/10 blur-[100px] rounded-full pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="mb-16 text-center lg:text-left">
+            <div className="inline-block mb-4">
+              <span className="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-4 py-1.5 rounded-full text-sm font-bold uppercase tracking-wider">
+                Measurable Resilience
+              </span>
+            </div>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight">
               Our Impact
             </h2>
-            <p className="text-base md:text-lg text-gray-600 dark:text-gray-400 max-w-3xl">
-              Making India safer, one sensor at a time.
+            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl leading-relaxed lg:mx-0 mx-auto">
+              Making India safer, one sensor at a time. Deploying critical infrastructure where it matters most.
             </p>
           </div>
-          <div className="grid md:grid-cols-4 gap-8">
-            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20 rounded-3xl p-8 border border-gray-200 dark:border-white/10 text-center">
-              <div className="text-5xl font-bold text-gray-900 dark:text-white mb-2">
-                1,300+
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+            {/* Stat 1 */}
+            <div className="impact-stat bg-white dark:bg-zinc-900/80 backdrop-blur-sm rounded-3xl p-8 border border-gray-200 dark:border-white/10 text-center hover:border-blue-500/50 transition-colors duration-300 shadow-xl shadow-gray-200/50 dark:shadow-none group">
+              <div className="mb-4 flex justify-center">
+                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/20 rounded-2xl flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform duration-300">
+                  <Zap className="w-6 h-6" />
+                </div>
               </div>
-              <div className="text-sm text-gray-600 dark:text-gray-400 font-semibold">
+              <div className="text-5xl font-bold text-gray-900 dark:text-white mb-2 tracking-tight">
+                <span className="stat-number" data-value="1300" data-suffix="+">0</span>
+              </div>
+              <div className="text-sm text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wide">
                 Active Sensor Nodes
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/20 dark:to-pink-950/20 rounded-3xl p-8 border border-gray-200 dark:border-white/10 text-center">
-              <div className="text-5xl font-bold text-gray-900 dark:text-white mb-2">
-                4
+            {/* Stat 2 */}
+            <div className="impact-stat bg-white dark:bg-zinc-900/80 backdrop-blur-sm rounded-3xl p-8 border border-gray-200 dark:border-white/10 text-center hover:border-purple-500/50 transition-colors duration-300 shadow-xl shadow-gray-200/50 dark:shadow-none group">
+              <div className="mb-4 flex justify-center">
+                <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/20 rounded-2xl flex items-center justify-center text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform duration-300">
+                  <Globe className="w-6 h-6" />
+                </div>
               </div>
-              <div className="text-sm text-gray-600 dark:text-gray-400 font-semibold">
+              <div className="text-5xl font-bold text-gray-900 dark:text-white mb-2 tracking-tight">
+                <span className="stat-number" data-value="4" data-suffix="">0</span>
+              </div>
+              <div className="text-sm text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wide">
                 Seismic Regions Covered
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20 rounded-3xl p-8 border border-gray-200 dark:border-white/10 text-center">
-              <div className="text-5xl font-bold text-gray-900 dark:text-white mb-2">
-                12
+            {/* Stat 3 */}
+            <div className="impact-stat bg-white dark:bg-zinc-900/80 backdrop-blur-sm rounded-3xl p-8 border border-gray-200 dark:border-white/10 text-center hover:border-emerald-500/50 transition-colors duration-300 shadow-xl shadow-gray-200/50 dark:shadow-none group">
+              <div className="mb-4 flex justify-center">
+                <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/20 rounded-2xl flex items-center justify-center text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform duration-300">
+                  <TrendingUp className="w-6 h-6" />
+                </div>
               </div>
-              <div className="text-sm text-gray-600 dark:text-gray-400 font-semibold">
+              <div className="text-5xl font-bold text-gray-900 dark:text-white mb-2 tracking-tight">
+                <span className="stat-number" data-value="12" data-suffix="">0</span>
+              </div>
+              <div className="text-sm text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wide">
                 States & UTs
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-950/20 dark:to-red-950/20 rounded-3xl p-8 border border-gray-200 dark:border-white/10 text-center">
-              <div className="text-5xl font-bold text-gray-900 dark:text-white mb-2">
-                100M+
+            {/* Stat 4 */}
+            <div className="impact-stat bg-white dark:bg-zinc-900/80 backdrop-blur-sm rounded-3xl p-8 border border-gray-200 dark:border-white/10 text-center hover:border-orange-500/50 transition-colors duration-300 shadow-xl shadow-gray-200/50 dark:shadow-none group">
+              <div className="mb-4 flex justify-center">
+                <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900/20 rounded-2xl flex items-center justify-center text-orange-600 dark:text-orange-400 group-hover:scale-110 transition-transform duration-300">
+                  <Users className="w-6 h-6" />
+                </div>
               </div>
-              <div className="text-sm text-gray-600 dark:text-gray-400 font-semibold">
+              <div className="text-5xl font-bold text-gray-900 dark:text-white mb-2 tracking-tight">
+                <span className="stat-number" data-value="100" data-suffix="M+">0</span>
+              </div>
+              <div className="text-sm text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wide">
                 People Under Coverage
               </div>
             </div>

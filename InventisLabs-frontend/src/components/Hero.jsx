@@ -8,6 +8,7 @@ import {
   AlertTriangle,
   Siren,
 } from "lucide-react";
+import LogoImage from "../assets/logo2222.jpg";
 
 const Hero = () => {
   const containerRef = useRef(null);
@@ -85,12 +86,12 @@ const Hero = () => {
           className="flex flex-col items-center lg:items-start max-w-2xl mx-auto lg:mx-0"
         >
           {/* Badge */}
-          <div className="hero-text-element inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 rounded-full mb-6 border border-orange-200 dark:border-orange-800">
+          {/* <div className="hero-text-element inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 rounded-full mb-6 border border-orange-200 dark:border-orange-800">
             <AlertTriangle className="w-4 h-4 text-orange-600 dark:text-orange-400" />
             <span className="text-xs font-bold text-orange-600 dark:text-orange-400 uppercase tracking-wider">
               Made in India • Seismic Safety Innovation
             </span>
-          </div>
+          </div> */}
 
           <h1 className="hero-text-element text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-[#1d1d1f] dark:text-[#f5f5f7] leading-[1.05] mb-6">
             Seconds of warning.
@@ -173,22 +174,13 @@ const Hero = () => {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-tr from-orange-100/50 to-blue-100/50 dark:from-orange-900/10 dark:to-blue-900/10 rounded-full blur-3xl -z-10" />
 
             {/* Image Container */}
-            <div className="relative w-full aspect-square bg-gradient-to-br from-gray-100 to-gray-200 dark:from-zinc-800 dark:to-zinc-700 rounded-[2rem] overflow-hidden border border-white/50 dark:border-white/10 shadow-2xl shadow-black/10 flex items-center justify-center">
-              {/* Grid Pattern Overlay */}
-              <div
-                className="absolute inset-0 opacity-10"
-                style={{
-                  backgroundImage:
-                    "linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px)",
-                  backgroundSize: "20px 20px",
-                }}
+            <div className="relative w-full aspect-square bg-gradient-to-br from-gray-100 to-gray-200 dark:from-zinc-800 dark:to-zinc-700 rounded-[2rem] overflow-hidden border border-white/50 dark:border-white/10 shadow-2xl shadow-black/10 flex items-center justify-center p-8">
+              {/* Company Logo */}
+              <img
+                src={LogoImage}
+                alt="InventisLabs Logo"
+                className="w-full h-full object-contain drop-shadow-2xl"
               />
-
-              {/* Placeholder Icon */}
-              <Activity className="w-32 h-32 md:w-40 md:h-40 text-orange-500 dark:text-orange-400 opacity-30" />
-
-              {/* Replace above Activity icon with your actual image: */}
-              {/* <img src="/path-to-your-image.png" alt="EQ-Alert Device" className="w-full h-full object-cover" /> */}
             </div>
           </div>
         </div>

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import gsap from "gsap";
 import { Moon, Sun, Menu, X, ArrowRight } from "lucide-react";
+import Logo from "../assets/logo.svg";
 
 const Navbar = () => {
   const [active, setActive] = useState("Home");
@@ -145,11 +146,16 @@ const Navbar = () => {
           {/* Logo */}
           <Link
             to="/"
-            className="flex items-center gap-2 text-gray-900 dark:text-white font-bold text-lg md:text-xl tracking-tight mr-4 md:mr-8 font-display whitespace-nowrap"
+            className="flex items-center gap-3 mr-4 md:mr-8"
           >
-            <span>InventisLabs</span>
-            {/* <span className="text-gray-400 font-light">+</span> */}
-            {/* <span className="text-blue-600 dark:text-blue-400">EQ-Alert</span> */}
+            <img
+              src={Logo}
+              alt="InventisLabs Logo"
+              className="h-10 md:h-12 w-auto"
+            />
+            <span className="text-gray-900 dark:text-white font-bold text-lg md:text-xl tracking-tight font-display whitespace-nowrap">
+              InventisLabs
+            </span>
           </Link>
 
           {/* Desktop Menu */}
@@ -222,11 +228,16 @@ const Navbar = () => {
         style={{ transform: "translateY(-100%)" }}
       >
         <div className="flex items-center justify-between p-6 md:p-8">
-          <span className="flex items-center gap-2 text-gray-900 dark:text-white font-bold text-xl tracking-tight font-display">
-            <span>InventisLabs</span>
-            <span className="text-gray-400">+</span>
-            <span className="text-blue-600 dark:text-blue-400">EQ-Alert</span>
-          </span>
+          <div className="flex items-center gap-3">
+            <img
+              src={Logo}
+              alt="InventisLabs Logo"
+              className="h-12 w-auto"
+            />
+            <span className="text-gray-900 dark:text-white font-bold text-xl tracking-tight font-display">
+              InventisLabs
+            </span>
+          </div>
           <button
             onClick={() => setIsMobileMenuOpen(false)}
             className="p-2 rounded-full bg-gray-200 dark:bg-white/10 text-gray-900 dark:text-white hover:bg-gray-300 dark:hover:bg-white/20 transition-colors"

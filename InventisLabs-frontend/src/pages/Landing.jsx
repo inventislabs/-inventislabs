@@ -4,6 +4,7 @@ import Hero from '../components/Hero';
 import WhatWeDo from '../components/WhatWeDo';
 
 import FeaturedProduct from '../components/FeaturedProduct';
+import StructuralMonitoring from '../components/StructuralMonitoring';
 import Contact from '../components/Contact';
 import Footer from '../components/Footer';
 
@@ -21,6 +22,8 @@ const Landing = () => {
 
 
                 <FeaturedProduct />
+
+                <StructuralMonitoring />
 
                 <Contact />
 

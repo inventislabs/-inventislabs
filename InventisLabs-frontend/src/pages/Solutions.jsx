@@ -10,6 +10,7 @@ import {
   Building2,
 } from "lucide-react";
 import Footer from "../components/Footer";
+import MonitoringImage from "../assets/e.png";
 
 const Solutions = () => {
   const [activeTab, setActiveTab] = useState("government");
@@ -80,21 +81,19 @@ const Solutions = () => {
             <div className="flex flex-col gap-2 md:w-1/4">
               <button
                 onClick={() => setActiveTab("government")}
-                className={`text-left px-4 sm:px-5 md:px-6 py-3 sm:py-3.5 md:py-4 rounded-xl text-sm sm:text-base font-medium transition-all ${
-                  activeTab === "government"
-                    ? "bg-blue-600 text-white shadow-lg"
-                    : "bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-zinc-700"
-                }`}
+                className={`text-left px-4 sm:px-5 md:px-6 py-3 sm:py-3.5 md:py-4 rounded-xl text-sm sm:text-base font-medium transition-all ${activeTab === "government"
+                  ? "bg-blue-600 text-white shadow-lg"
+                  : "bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-zinc-700"
+                  }`}
               >
                 For Governments & Authorities
               </button>
               <button
                 onClick={() => setActiveTab("industry")}
-                className={`text-left px-4 sm:px-5 md:px-6 py-3 sm:py-3.5 md:py-4 rounded-xl text-sm sm:text-base font-medium transition-all ${
-                  activeTab === "industry"
-                    ? "bg-blue-600 text-white shadow-lg"
-                    : "bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-zinc-700"
-                }`}
+                className={`text-left px-4 sm:px-5 md:px-6 py-3 sm:py-3.5 md:py-4 rounded-xl text-sm sm:text-base font-medium transition-all ${activeTab === "industry"
+                  ? "bg-blue-600 text-white shadow-lg"
+                  : "bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-zinc-700"
+                  }`}
               >
                 For Industry & Infrastructure
               </button>
@@ -244,7 +243,7 @@ const Solutions = () => {
               vibration, and stress anomalies before they become critical
               failures.
             </p>
-            <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400 mb-6 sm:mb-8">
+            <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400 mb-6 sm:mb-8 border-l-4 border-blue-500 pl-4 bg-blue-50 dark:bg-white/5 py-4 rounded-r-lg">
               Fully integrable with the EQ-Alert network to provide automated
               structural soundness assessments post-earthquake.
             </p>
@@ -274,22 +273,23 @@ const Solutions = () => {
               <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4" />
             </a>
           </div>
-          <div className="relative">
-            <div className="aspect-[4/3] bg-white dark:bg-black rounded-2xl sm:rounded-3xl border border-gray-200 dark:border-white/10 shadow-xl sm:shadow-2xl p-4 sm:p-6 md:p-8 flex items-center justify-center relative overflow-hidden">
-              {/* Abstract Building Visualization */}
-              <Building2
-                className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 text-gray-200 dark:text-zinc-800"
-                strokeWidth={0.5}
+          <div className="relative group">
+            {/* Glow Effect */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/20 to-purple-500/20 rounded-3xl blur-2xl group-hover:blur-3xl transition-all duration-500"></div>
+
+            {/* Image Container */}
+            <div className="relative rounded-3xl overflow-hidden border border-gray-200 dark:border-white/10 shadow-2xl hover:scale-[1.02] transition-transform duration-500">
+              <img
+                src={MonitoringImage}
+                alt="Structural Monitoring Dashboard"
+                className="w-full h-auto object-cover"
               />
+              {/* Overlay Gradient */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent"></div>
+            </div>
 
-              {/* Sensor Points */}
-              <div className="absolute top-1/4 left-1/3 w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-blue-500 animate-pulse ring-2 sm:ring-4 ring-blue-500/20" />
-              <div className="absolute bottom-1/3 right-1/3 w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-blue-500 animate-pulse ring-2 sm:ring-4 ring-blue-500/20 delay-100" />
-              <div className="absolute bottom-10 left-1/2 w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-blue-500 animate-pulse ring-2 sm:ring-4 ring-blue-500/20 delay-200" />
-
-              <div className="absolute top-2 right-2 sm:top-4 sm:right-4 bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-400 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-bold">
-                Structural Health: Good
-              </div>
+            <div className="absolute top-2 right-2 sm:top-4 sm:right-4 bg-green-100 dark:bg-green-900/80 backdrop-blur-sm text-green-700 dark:text-green-300 px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold shadow-lg border border-green-200 dark:border-green-800">
+              Live Status: Active
             </div>
           </div>
         </div>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Twitter, Linkedin, Facebook, Instagram, Send } from "lucide-react";
 import { Link } from "react-router-dom";
+import Logo from "../assets/logo.svg";
 
 const Footer = () => {
     const [email, setEmail] = useState("");
@@ -52,8 +53,18 @@ const Footer = () => {
 
                     {/* ---------- Brand ---------- */}
                     <div>
+                        <div className="mb-4 flex items-center gap-3">
+                            <img
+                                src={Logo}
+                                alt="InventisLabs Logo"
+                                className="h-16 w-auto"
+                            />
+                            <span className="text-gray-900 dark:text-white font-bold text-xl tracking-tight font-display">
+                                InventisLabs
+                            </span>
+                        </div>
                         <p className="text-sm leading-relaxed max-w-xs">
-                            India’s first mass IoT regional earthquake early warning system,
+                            India's first mass IoT regional earthquake early warning system,
                             protecting lives with advance notification.
                         </p>
 

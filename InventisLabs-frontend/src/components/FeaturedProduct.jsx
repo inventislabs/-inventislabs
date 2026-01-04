@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowRight, Siren } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import HeroImage from '../assets/Hero.jpeg';
 
 const FeaturedProduct = () => {
     const navigate = useNavigate();
@@ -29,12 +30,26 @@ const FeaturedProduct = () => {
                         </button>
                     </div>
 
-                    {/* Optional: Add a small product image or graphic here if desired. Using a stylized icon for now. */}
-                    <div className="relative w-full max-w-xs md:max-w-sm aspect-square bg-white/5 rounded-3xl border border-white/10 flex items-center justify-center p-8">
-                        <div className="absolute inset-0 bg-orange-500/20 blur-[80px] rounded-full pointer-events-none"></div>
-                        <Siren className="w-32 h-32 text-orange-500 opacity-80" />
-                        <div className="absolute bottom-6 left-6 right-6 text-center text-xs text-gray-500 font-mono">
-                            Model: EQA-PRO-V2 <br /> Industrial Grade
+                    {/* Hero Image */}
+                    <div className="relative group w-full max-w-md md:max-w-lg">
+                        {/* Glow effect */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/30 to-orange-500/30 blur-3xl rounded-3xl group-hover:blur-[100px] transition-all duration-500"></div>
+
+                        {/* Image container */}
+                        <div className="relative rounded-3xl overflow-hidden border-2 border-white/10 shadow-2xl hover:scale-105 transition-transform duration-500">
+                            <img
+                                src={HeroImage}
+                                alt="EQ-Alert System"
+                                className="w-full h-auto object-cover"
+                            />
+                            {/* Gradient overlay */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+
+                            {/* Badge overlay */}
+                            <div className="absolute bottom-6 left-6 right-6 bg-black/60 backdrop-blur-sm rounded-2xl p-4 border border-white/10">
+                                <p className="text-sm font-semibold text-white">Model: EQA-PRO-V2</p>
+                                <p className="text-xs text-gray-300">Industrial Grade System</p>
+                            </div>
                         </div>
                     </div>
 
