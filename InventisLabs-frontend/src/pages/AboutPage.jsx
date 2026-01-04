@@ -13,6 +13,7 @@ import {
   TrendingUp,
   Lightbulb,
 } from "lucide-react";
+import StoryVideo from '../assets/InventisStory.mp4';
 
 const AboutPage = () => {
   const videoRef = useRef(null);
@@ -155,7 +156,7 @@ const AboutPage = () => {
                   filter: 'contrast(1.05) brightness(0.98)',
                 }}
               >
-                <source src="/src/assets/Inventis Story.mp4" type="video/mp4" />
+                <source src={StoryVideo} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
 
