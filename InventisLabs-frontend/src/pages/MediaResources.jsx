@@ -1,6 +1,7 @@
 import React from "react";
 import { FileText, Mic, Download, ExternalLink } from "lucide-react";
 import Footer from "../components/Footer";
+import BrochurePDF from "../assets/InventisLabsEQAlert.pdf";
 
 const MediaResources = () => {
   return (
@@ -86,9 +87,13 @@ const MediaResources = () => {
                   A simple guide to understanding P-waves, S-waves, and warning
                   times.
                 </p>
-                <button className="w-full py-2 rounded-lg bg-white dark:bg-black border border-gray-200 dark:border-white/10 text-xs font-bold flex items-center justify-center gap-2 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors">
+                <a
+                  href={BrochurePDF}
+                  download="InventisLabs_EQ_Alert_Brochure.pdf"
+                  className="w-full py-2 rounded-lg bg-white dark:bg-black border border-gray-200 dark:border-white/10 text-xs font-bold flex items-center justify-center gap-2 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
+                >
                   <Download size={14} /> Download PDF
-                </button>
+                </a>
               </div>
 
               {/* Card 4 */}
@@ -103,9 +108,13 @@ const MediaResources = () => {
                 <p className="text-xs text-gray-500 mb-4">
                   Detailed specs of EQ-Alert sensors, sirens, and gateways.
                 </p>
-                <button className="w-full py-2 rounded-lg bg-white dark:bg-black border border-gray-200 dark:border-white/10 text-xs font-bold flex items-center justify-center gap-2 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors">
+                <a
+                  href={BrochurePDF}
+                  download="InventisLabs_EQ_Alert_Specs.pdf"
+                  className="w-full py-2 rounded-lg bg-white dark:bg-black border border-gray-200 dark:border-white/10 text-xs font-bold flex items-center justify-center gap-2 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
+                >
                   <Download size={14} /> Download PDF
-                </button>
+                </a>
               </div>
             </div>
           </div>
