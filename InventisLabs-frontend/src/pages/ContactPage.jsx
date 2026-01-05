@@ -80,111 +80,154 @@ const ContactPage = () => {
                 </p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-2">
-                    Full Name
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    className="w-full px-4 py-3 rounded-xl bg-white dark:bg-black border border-gray-200 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-                    placeholder="Enter your full name"
-                  />
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-6">
+              <form onSubmit={handleSubmit} className="space-y-8">
+                <div className="space-y-6">
                   <div>
-                    <label className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-2">
-                      Organization
-                    </label>
-                    <select className="w-full px-4 py-3 rounded-xl bg-white dark:bg-black border border-gray-200 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-gray-500">
-                      <option>Government / PSU</option>
-                      <option>Private Corporation</option>
-                      <option>Startup</option>
-                      <option>Research Institute</option>
-                      <option>Other</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-2">
-                      Phone / WhatsApp
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2 ml-1">
+                      Full Name
                     </label>
                     <input
-                      type="tel"
-                      className="w-full px-4 py-3 rounded-xl bg-white dark:bg-black border border-gray-200 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-                      placeholder="+91 98765 00000"
+                      type="text"
+                      required
+                      className="w-full px-5 py-4 rounded-xl bg-white dark:bg-black border border-gray-200 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all shadow-sm"
+                      placeholder="Enter your full name"
                     />
                   </div>
-                </div>
 
-                <div>
-                  <label className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-2">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    required
-                    className="w-full px-4 py-3 rounded-xl bg-white dark:bg-black border border-gray-200 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-                    placeholder="name@company.com"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-2">
-                    Location (State, City)
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full px-4 py-3 rounded-xl bg-white dark:bg-black border border-gray-200 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-                    placeholder="e.g. Lucknow, UP"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
-                    Area of Interest
-                  </label>
-                  <div className="grid md:grid-cols-2 gap-3">
-                    {[
-                      "State-wide EEW",
-                      "City / Smart City EEW",
-                      "Industrial Plant EEW",
-                      "Structural Monitoring",
-                      "IoT Development",
-                    ].map((item, i) => (
-                      <label
-                        key={i}
-                        className="flex items-center gap-3 p-3 rounded-lg border border-gray-200 dark:border-white/5 bg-white dark:bg-black cursor-pointer hover:border-blue-500 transition-colors"
-                      >
-                        <input
-                          type="checkbox"
-                          className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500"
-                        />
-                        <span className="text-sm text-gray-600 dark:text-gray-300 font-medium">
-                          {item}
-                        </span>
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2 ml-1">
+                        OrganizationType
                       </label>
-                    ))}
+                      <div className="relative">
+                        <select className="appearance-none w-full px-5 py-4 rounded-xl bg-white dark:bg-black border border-gray-200 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all text-gray-600 dark:text-gray-300 shadow-sm">
+                          <option>Government / PSU</option>
+                          <option>Private Corporation</option>
+                          <option>Startup</option>
+                          <option>Research Institute</option>
+                          <option>Other</option>
+                        </select>
+                        <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2 ml-1">
+                        Phone / WhatsApp
+                      </label>
+                      <input
+                        type="tel"
+                        className="w-full px-5 py-4 rounded-xl bg-white dark:bg-black border border-gray-200 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all shadow-sm"
+                        placeholder="+91 98765 00000"
+                      />
+                    </div>
                   </div>
-                </div>
 
-                <div>
-                  <label className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-2">
-                    Message / Requirements
-                  </label>
-                  <textarea
-                    rows="4"
-                    className="w-full px-4 py-3 rounded-xl bg-white dark:bg-black border border-gray-200 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-                    placeholder="Tell us more about your pilot needs..."
-                  ></textarea>
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2 ml-1">
+                        Email Address
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        className="w-full px-5 py-4 rounded-xl bg-white dark:bg-black border border-gray-200 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all shadow-sm"
+                        placeholder="name@company.com"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2 ml-1">
+                        Location (State, City)
+                      </label>
+                      <input
+                        type="text"
+                        className="w-full px-5 py-4 rounded-xl bg-white dark:bg-black border border-gray-200 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all shadow-sm"
+                        placeholder="e.g. Lucknow, UP"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-3 ml-1">
+                      Area of Interest
+                    </label>
+                    <div className="grid sm:grid-cols-2 gap-3">
+                      {[
+                        "State-wide EEW",
+                        "City / Smart City EEW",
+                        "Industrial Plant EEW",
+                        "Structural Monitoring",
+                        "IoT Development",
+                      ].map((item, i) => (
+                        <label
+                          key={i}
+                          className="group flex items-center gap-3 p-4 rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-black cursor-pointer hover:border-blue-500 dark:hover:border-blue-400 hover:shadow-md transition-all duration-200"
+                        >
+                          <div className="relative flex items-center">
+                            <input
+                              type="checkbox"
+                              className="peer h-5 w-5 cursor-pointer appearance-none rounded-md border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-white/5 transition-all checked:border-blue-500 checked:bg-blue-500 hover:border-blue-400"
+                            />
+                            <svg
+                              className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="3"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                          </div>
+                          <span className="text-sm font-medium text-gray-600 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
+                            {item}
+                          </span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2 ml-1">
+                      Message / Requirements
+                    </label>
+                    <textarea
+                      rows="4"
+                      className="w-full px-5 py-4 rounded-xl bg-white dark:bg-black border border-gray-200 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all shadow-sm resize-none"
+                      placeholder="Tell us more about your pilot needs..."
+                    ></textarea>
+                  </div>
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-lg transition-transform active:scale-95 flex items-center justify-center gap-2"
+                  className="w-full cursor-pointer relative bg-gray-900 dark:bg-white/10 py-3 rounded-full min-h-[3.5rem] group flex items-center justify-start hover:bg-green-400 transition-all duration-[0.8s] ease-[cubic-bezier(0.510,0.026,0.368,1.016)] shadow-[inset_1px_2px_5px_#00000080]"
                 >
-                  Submit Request <Send size={20} />
+                  <div className="absolute flex px-1 py-0.5 justify-start items-center inset-0">
+                    <div className="w-[0%] group-hover:w-full transition-all duration-[1s] ease-[cubic-bezier(0.510,0.026,0.368,1.016)]"></div>
+                    <div className="rounded-full shrink-0 flex justify-center items-center shadow-[inset_1px_-1px_3px_0_black] h-full aspect-square bg-green-400 transition-all duration-[1s] ease-[cubic-bezier(0.510,0.026,0.368,1.016)] group-hover:bg-black">
+                      <div className="size-[1rem] text-black group-hover:text-white group-hover:-rotate-45 transition-all duration-[1s] ease-[cubic-bezier(0.510,0.026,0.368,1.016)]">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 16 16"
+                          height="100%"
+                          width="100%"
+                        >
+                          <path
+                            fill="currentColor"
+                            d="M12.175 9H0V7H12.175L6.575 1.4L8 0L16 8L8 16L6.575 14.6L12.175 9Z"
+                          ></path>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="w-full pl-[3.4rem] pr-[1.1rem] group-hover:pl-[1.1rem] group-hover:pr-[3.4rem] transition-all duration-[1s] ease-[cubic-bezier(0.510,0.026,0.368,1.016)] group-hover:text-black text-white font-bold text-center text-lg">
+                    Submit Request
+                  </div>
                 </button>
               </form>
             )}

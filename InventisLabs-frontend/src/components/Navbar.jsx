@@ -176,9 +176,12 @@ const Navbar = () => {
             {/* Desktop CTA */}
             <button
               onClick={() => navigate('/contact')}
-              className="hidden lg:flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-full text-xs font-bold uppercase tracking-wider transition-all shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 active:scale-95"
+              className="hidden lg:flex relative items-center justify-center px-6 py-2.5 overflow-hidden font-medium text-blue-600 transition-all duration-300 bg-blue-50 rounded-full hover:bg-white hover:ring-1 hover:ring-blue-200 group shadow-sm hover:shadow-md"
             >
-              Pilot EQ-Alert
+              <span className="w-48 h-48 rounded rotate-[-40deg] bg-blue-600 absolute bottom-0 left-0 -translate-x-full ease-out duration-700 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
+              <span className="relative w-full text-left text-blue-600 transition-colors duration-300 ease-in-out group-hover:text-white font-bold text-xs uppercase tracking-wider">
+                Pilot EQ-Alert
+              </span>
             </button>
 
             {/* Theme Toggle */}

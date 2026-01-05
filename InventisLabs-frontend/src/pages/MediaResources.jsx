@@ -90,9 +90,12 @@ const MediaResources = () => {
                 <a
                   href={BrochurePDF}
                   download="InventisLabs_EQ_Alert_Brochure.pdf"
-                  className="w-full py-2 rounded-lg bg-white dark:bg-black border border-gray-200 dark:border-white/10 text-xs font-bold flex items-center justify-center gap-2 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
+                  className="relative w-full flex items-center justify-center px-6 py-3 overflow-hidden font-medium text-blue-600 dark:text-blue-400 transition-all duration-300 bg-blue-50 dark:bg-blue-900/20 rounded-xl hover:bg-white dark:hover:bg-zinc-900 hover:ring-1 hover:ring-blue-200 dark:hover:ring-blue-800 group"
                 >
-                  <Download size={14} /> Download PDF
+                  <span className="w-full h-56 rounded rotate-[-40deg] bg-blue-600 dark:bg-blue-500 absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
+                  <span className="relative flex items-center gap-2 text-blue-600 dark:text-blue-400 transition-colors duration-300 ease-in-out group-hover:text-white font-bold text-sm">
+                    <Download size={16} /> Download PDF
+                  </span>
                 </a>
               </div>
 
@@ -111,9 +114,12 @@ const MediaResources = () => {
                 <a
                   href={BrochurePDF}
                   download="InventisLabs_EQ_Alert_Specs.pdf"
-                  className="w-full py-2 rounded-lg bg-white dark:bg-black border border-gray-200 dark:border-white/10 text-xs font-bold flex items-center justify-center gap-2 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
+                  className="relative w-full flex items-center justify-center px-6 py-3 overflow-hidden font-medium text-blue-600 dark:text-blue-400 transition-all duration-300 bg-blue-50 dark:bg-blue-900/20 rounded-xl hover:bg-white dark:hover:bg-zinc-900 hover:ring-1 hover:ring-blue-200 dark:hover:ring-blue-800 group"
                 >
-                  <Download size={14} /> Download PDF
+                  <span className="w-full h-56 rounded rotate-[-40deg] bg-blue-600 dark:bg-blue-500 absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
+                  <span className="relative flex items-center gap-2 text-blue-600 dark:text-blue-400 transition-colors duration-300 ease-in-out group-hover:text-white font-bold text-sm">
+                    <Download size={16} /> Download PDF
+                  </span>
                 </a>
               </div>
             </div>
