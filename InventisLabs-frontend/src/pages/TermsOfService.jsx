@@ -67,7 +67,7 @@ const TermsOfService = () => {
                             We are Inventis Labs ("Company", "we", "us", "our"), a company registered in India at A- 44 Vasundhara, Chinhat Lucknow- 226028.
                         </p>
                         <p>
-                            We operate the website http://www.inventislabs.in (the "Site"), as well as any other related products and services that refer or link to these legal terms (the "Legal Terms") (collectively, the "Services").
+                            We operate the website https://www.inventislabs.com (the "Site"), as well as any other related products and services that refer or link to these legal terms (the "Legal Terms") (collectively, the "Services").
                         </p>
                         <p>
                             You agree that by accessing the Services, you have read, understood, and agreed to be bound by all of these Legal Terms. IF YOU DO NOT AGREE WITH ALL OF THESE LEGAL TERMS, THEN YOU ARE EXPRESSLY PROHIBITED FROM USING THE SERVICES AND YOU MUST DISCONTINUE USE IMMEDIATELY.

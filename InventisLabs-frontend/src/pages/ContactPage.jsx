@@ -33,9 +33,9 @@ const ContactPage = () => {
                 <div>
                   <h3 className="font-bold text-lg mb-1">Headquarters</h3>
                   <p className="text-gray-500 dark:text-gray-400">
-                    Lucknow / Bahraich, Uttar Pradesh
+                    InventisLabs Pvt. Ltd.
                     <br />
-                    India
+                    A- 44 Vasundhara, Chinhat Lucknow- 226028
                   </p>
                 </div>
               </div>
@@ -47,9 +47,19 @@ const ContactPage = () => {
                 <div>
                   <h3 className="font-bold text-lg mb-1">Email Us</h3>
                   <p className="text-gray-500 dark:text-gray-400">
-                    contact@inventislabs.com
-                    <br />
-                    pilots@inventislabs.com
+                    info@inventislabs.com
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center shrink-0 text-blue-600 dark:text-blue-400">
+                  <Phone size={24} />
+                </div>
+                <div>
+                  <h3 className="font-bold text-lg mb-1">Phone</h3>
+                  <p className="text-gray-500 dark:text-gray-400">
+                    +91 7011254007
                   </p>
                 </div>
               </div>
