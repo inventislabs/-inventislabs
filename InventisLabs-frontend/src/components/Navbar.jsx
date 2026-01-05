@@ -29,17 +29,10 @@ const Navbar = () => {
 
   // Theme toggle logic (persisted)
   useEffect(() => {
-    if (
-      localStorage.theme === "dark" ||
-      (!localStorage.theme &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches)
-    ) {
-      setIsDark(true);
-      document.documentElement.classList.add("dark");
-    } else {
-      setIsDark(false);
-      document.documentElement.classList.remove("dark");
-    }
+    // MANDATORY: Force light theme on entry
+    setIsDark(false);
+    document.documentElement.classList.remove("dark");
+    localStorage.theme = "light";
   }, []);
 
   const toggleTheme = () => {

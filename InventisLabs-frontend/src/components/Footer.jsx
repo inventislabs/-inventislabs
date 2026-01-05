@@ -202,7 +202,7 @@ const Footer = () => {
             {/* ================= BOTTOM BAR ================= */}
             <div className="border-t border-gray-200 dark:border-white/10">
                 <div className="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-400">
-                    <p>© 2025 Inventis Labs. All rights reserved.</p>
+                    <p>© 2026 Inventis Labs. All rights reserved.</p>
                     <div className="flex gap-8">
                         <Link to="/privacy-policy" className="hover:text-blue-600">Privacy Policy</Link>
                         <Link to="/terms-of-service" className="hover:text-blue-600">Terms of Service</Link>
