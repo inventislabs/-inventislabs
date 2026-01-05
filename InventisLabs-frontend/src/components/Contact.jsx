@@ -2,7 +2,7 @@ import React, { useState, useLayoutEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Mail, Phone, MapPin, Send, ArrowRight, MessageSquare } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, ArrowRight, MessageSquare, Linkedin } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -164,7 +164,7 @@ const Contact = () => {
                                         </div>
                                         <div>
                                             <h4 className="font-semibold text-gray-900 dark:text-white">Headquarters</h4>
-                                            <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">Inventis Labs Pvt. Ltd.<br />Tech Park, Sector 62, Noida</p>
+                                            <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">InventisLabs Pvt. Ltd.<br />A- 44 Vasundhara, Chinhat Lucknow- 226028</p>
                                         </div>
                                     </li>
                                     <li className="flex items-center gap-4">
@@ -173,7 +173,7 @@ const Contact = () => {
                                         </div>
                                         <div>
                                             <h4 className="font-semibold text-gray-900 dark:text-white">Email</h4>
-                                            <a href="mailto:info@inventislabs.in" className="text-gray-500 dark:text-gray-400 text-sm mt-1 hover:text-blue-600 transition-colors">info@inventislabs.in</a>
+                                            <a href="mailto:info@inventislabs.com" className="text-gray-500 dark:text-gray-400 text-sm mt-1 hover:text-blue-600 transition-colors">info@inventislabs.com</a>
                                         </div>
                                     </li>
                                     <li className="flex items-center gap-4">
@@ -182,7 +182,16 @@ const Contact = () => {
                                         </div>
                                         <div>
                                             <h4 className="font-semibold text-gray-900 dark:text-white">Phone</h4>
-                                            <a href="tel:+911204567890" className="text-gray-500 dark:text-gray-400 text-sm mt-1 hover:text-blue-600 transition-colors">+91 120 4567 890</a>
+                                            <a href="tel:+917011254007" className="text-gray-500 dark:text-gray-400 text-sm mt-1 hover:text-blue-600 transition-colors">+91 7011254007</a>
+                                        </div>
+                                    </li>
+                                    <li className="flex items-center gap-4">
+                                        <div className="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0">
+                                            <Linkedin className="w-5 h-5" />
+                                        </div>
+                                        <div>
+                                            <h4 className="font-semibold text-gray-900 dark:text-white">LinkedIn</h4>
+                                            <a href="https://www.linkedin.com/company/inventis-labs" target="_blank" rel="noopener noreferrer" className="text-gray-500 dark:text-gray-400 text-sm mt-1 hover:text-blue-600 transition-colors">Inventis Labs</a>
                                         </div>
                                     </li>
                                 </ul>

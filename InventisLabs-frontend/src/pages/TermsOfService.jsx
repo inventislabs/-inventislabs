@@ -64,7 +64,7 @@ const TermsOfService = () => {
                 <div className="policy-content">
                     <Section title="Agreement to Terms" icon={FileText}>
                         <p>
-                            We are Inventis Labs ("Company", "we", "us", "our"), a company registered in India at Tech Park, Sector 62, Noida.
+                            We are Inventis Labs ("Company", "we", "us", "our"), a company registered in India at A- 44 Vasundhara, Chinhat Lucknow- 226028.
                         </p>
                         <p>
                             We operate the website http://www.inventislabs.in (the "Site"), as well as any other related products and services that refer or link to these legal terms (the "Legal Terms") (collectively, the "Services").
@@ -109,9 +109,9 @@ const TermsOfService = () => {
                             In order to resolve a complaint regarding the Services or to receive further information regarding use of the Services, please contact us at:
                         </p>
                         <address className="not-italic mt-4 text-gray-500 dark:text-gray-500">
-                            Inventis Labs Pvt. Ltd.<br />
-                            Tech Park, Sector 62, Noida<br />
-                            <a href="mailto:info@inventislabs.in" className="text-blue-600 hover:underline">info@inventislabs.in</a>
+                            InventisLabs Pvt. Ltd.<br />
+                            A- 44 Vasundhara, Chinhat Lucknow- 226028<br />
+                            <a href="mailto:info@inventislabs.com" className="text-blue-600 hover:underline">info@inventislabs.com</a>
                         </address>
                     </Section>
                 </div>

@@ -69,10 +69,17 @@ const Footer = () => {
                         </p>
 
                         <div className="flex gap-4 mt-6">
-                            {[Twitter, Linkedin, Facebook, Instagram].map((Icon, i) => (
+                            {[
+                                { Icon: Twitter, href: "#" },
+                                { Icon: Linkedin, href: "https://www.linkedin.com/company/inventis-labs" },
+                                { Icon: Facebook, href: "#" },
+                                { Icon: Instagram, href: "#" }
+                            ].map(({ Icon, href }, i) => (
                                 <a
                                     key={i}
-                                    href="#"
+                                    href={href}
+                                    target={href.startsWith("http") ? "_blank" : undefined}
+                                    rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
                                     aria-label="Social link"
                                     className="w-10 h-10 rounded-full bg-gray-100 dark:bg-white/5 flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-blue-600 hover:text-white transition-all duration-300"
                                 >
