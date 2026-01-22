@@ -111,7 +111,7 @@ const TermsOfService = () => {
                         <address className="not-italic mt-4 text-gray-500 dark:text-gray-500">
                             InventisLabs Pvt. Ltd.<br />
                             A- 44 Vasundhara, Chinhat Lucknow- 226028<br />
-                            <a href="mailto:info@inventislabs.com" className="text-blue-600 hover:underline">info@inventislabs.com</a>
+                            <a href="mailto:support@zohomail.com" className="text-blue-600 hover:underline">support@zohomail.com</a>
                         </address>
                     </Section>
                 </div>

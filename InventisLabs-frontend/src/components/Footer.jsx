@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Twitter, Linkedin, Facebook, Instagram, Send } from "lucide-react";
 import { Link } from "react-router-dom";
 import Logo from "../assets/logo.svg";
+import { getApiUrl } from "../config";
 
 const Footer = () => {
   const [email, setEmail] = useState("");
@@ -20,7 +21,7 @@ const Footer = () => {
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/newsletter`,
+        `${getApiUrl()}/api/newsletter`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -193,18 +194,13 @@ const Footer = () => {
         <div className="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-400">
           <p>© 2026 Inventis Labs. All rights reserved.</p>
           <div className="flex gap-8">
-            <Link to="/privacy-policy" className="hover:text-blue-600">
-              Privacy Policy
-            </Link>
-            <Link to="/terms-of-service" className="hover:text-blue-600">
-              Terms of Service
-            </Link>
-            <Link to="/cookies" className="hover:text-blue-600">
-              Cookie Policy
-            </Link>
+            <Link to="/privacy-policy" className="hover:text-blue-600">Privacy Policy</Link>
+            <Link to="/terms-of-service" className="hover:text-blue-600">Terms of Service</Link>
+            <Link to="/cookies" className="hover:text-blue-600">Cookie Policy</Link>
           </div>
         </div>
       </div>
+
     </footer>
   );
 };

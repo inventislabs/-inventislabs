@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Mail, Phone, MapPin, Send, ArrowRight, MessageSquare, Linkedin } from 'lucide-react';
+import { getApiUrl } from '../config';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -98,7 +99,7 @@ const Contact = () => {
         };
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/contact`, {
+            const response = await fetch(`${getApiUrl()}/api/contact`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -173,7 +174,7 @@ const Contact = () => {
                                         </div>
                                         <div>
                                             <h4 className="font-semibold text-gray-900 dark:text-white">Email</h4>
-                                            <a href="mailto:info@inventislabs.com" className="text-gray-500 dark:text-gray-400 text-sm mt-1 hover:text-blue-600 transition-colors">info@inventislabs.com</a>
+                                            <a href="mailto:support@zohomail.com" className="text-gray-500 dark:text-gray-400 text-sm mt-1 hover:text-blue-600 transition-colors">support@zohomail.com</a>
                                         </div>
                                     </li>
                                     <li className="flex items-center gap-4">

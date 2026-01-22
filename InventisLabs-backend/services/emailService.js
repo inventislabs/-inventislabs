@@ -4,11 +4,14 @@ require("dotenv").config();
 const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
 
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+
+  host: 'smtp.zoho.com',
+  port: 465,
+  secure: true,
   auth: {
     user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
+    pass: process.env.EMAIL_PASS
+  }
 });
 
 // Email sending function with retry logic
@@ -116,9 +119,8 @@ const getEmailTemplate = (name, type = "contact", details = {}) => {
                     <td style="padding: 16px 0; border-bottom: 1px solid #e1e1e1; color: #86868b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Experience</td>
                     <td style="padding: 16px 0; border-bottom: 1px solid #e1e1e1; color: #1d1d1f; font-size: 14px; font-weight: 500; text-align: right;">${details.experience || "N/A"}</td>
                 </tr>
-                ${
-                  details.resumeUrl
-                    ? `
+                ${details.resumeUrl
+        ? `
                 <tr>
                     <td style="padding: 16px 0; border-bottom: 1px solid #e1e1e1; color: #86868b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Resume</td>
                     <td style="padding: 16px 0; border-bottom: 1px solid #e1e1e1; text-align: right;">
@@ -126,19 +128,18 @@ const getEmailTemplate = (name, type = "contact", details = {}) => {
                     </td>
                 </tr>
                 `
-                    : ""
-                }
+        : ""
+      }
             </table>
-            ${
-              details.coverLetter
-                ? `
+            ${details.coverLetter
+        ? `
             <div style="margin-top: 16px;">
                 <p style="color: #86868b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">Cover Letter</p>
                 <p style="color: #1d1d1f; font-size: 14px; line-height: 1.6; margin: 0; white-space: pre-wrap;">${details.coverLetter}</p>
             </div>
             `
-                : ""
-            }
+        : ""
+      }
         </div>
     `
       : isPilotRequestAdmin
@@ -170,16 +171,15 @@ const getEmailTemplate = (name, type = "contact", details = {}) => {
                     <td style="padding: 16px 0; border-bottom: 1px solid #e1e1e1; color: #1d1d1f; font-size: 14px; font-weight: 500; text-align: right;">${details.areaOfInterest}</td>
                 </tr>
             </table>
-            ${
-              details.message
-                ? `
+            ${details.message
+          ? `
             <div style="margin-top: 16px;">
                 <p style="color: #86868b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">Requirements</p>
                 <p style="color: #1d1d1f; font-size: 14px; line-height: 1.6; margin: 0; white-space: pre-wrap;">${details.message}</p>
             </div>
             `
-                : ""
-            }
+          : ""
+        }
         </div>
     `
         : "";
@@ -234,12 +234,10 @@ const getEmailTemplate = (name, type = "contact", details = {}) => {
                     <h2 class="greeting">${greeting}</h2>
                     <p class="message">${mainText}</p>
                     ${detailsHtml}
-                    ${
-                      !isAdmin && !isJobApplicationAdmin && !isPilotRequestAdmin
-                        ? `
-                    ${
-                      isJobApplication
-                        ? `
+                    ${!isAdmin && !isJobApplicationAdmin && !isPilotRequestAdmin
+      ? `
+                    ${isJobApplication
+        ? `
                     <div style="background-color: #f5f5f7; border-radius: 12px; padding: 20px; margin: 24px 0;">
                         <p style="margin: 0; color: #1d1d1f; font-size: 14px; line-height: 1.6;">
                             <strong>What happens next?</strong><br>
@@ -249,11 +247,10 @@ const getEmailTemplate = (name, type = "contact", details = {}) => {
                         </p>
                     </div>
                     `
-                        : ""
-                    }
-                    ${
-                      isPilotRequest
-                        ? `
+        : ""
+      }
+                    ${isPilotRequest
+        ? `
                     <div style="background-color: #f5f5f7; border-radius: 12px; padding: 20px; margin: 24px 0;">
                         <p style="margin: 0; color: #1d1d1f; font-size: 14px; line-height: 1.6;">
                             <strong>Next Steps:</strong><br>
@@ -264,8 +261,8 @@ const getEmailTemplate = (name, type = "contact", details = {}) => {
                         </p>
                     </div>
                     `
-                        : ""
-                    }
+        : ""
+      }
                     <div class="divider"></div>
                     <div class="features-grid">
                         <div class="feature-item">
@@ -281,12 +278,12 @@ const getEmailTemplate = (name, type = "contact", details = {}) => {
                         <a href="${CLIENT_URL}" class="cta-button">Visit Website</a>
                     </div>
                     `
-                        : `
+      : `
                     <div style="text-align: center; margin-top: 24px;">
                         <a href="${CLIENT_URL}/admin" class="cta-button">View in Admin Panel</a>
                     </div>
                     `
-                    }
+    }
                 </div>
                 <div class="footer">
                     <div class="footer-links">
@@ -297,7 +294,7 @@ const getEmailTemplate = (name, type = "contact", details = {}) => {
                     <p class="footer-text">
                         Inventis Labs Pvt. Ltd.<br>
                         Tech Park, Sector 62, Noida<br>
-                        Questions? <a href="mailto:info@inventislabs.in" style="color: #1d1d1f; text-decoration: underline;">info@inventislabs.in</a>
+                        Questions? <a href="mailto:support@zohomail.com" style="color: #1d1d1f; text-decoration: underline;">support@zohomail.com</a>
                     </p>
                     <div class="copyright">
                         &copy; ${new Date().getFullYear()} Inventis Labs Pvt. Ltd.

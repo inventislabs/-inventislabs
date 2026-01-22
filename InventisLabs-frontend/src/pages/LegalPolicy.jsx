@@ -91,7 +91,7 @@ const LegalPolicy = () => {
 
                     <Section title="Contact Us" icon={ShieldCheck}>
                         <p>
-                            If you have questions or comments about this policy, you may email us at <a href="mailto:info@inventislabs.com" className="text-blue-600 hover:underline">info@inventislabs.com</a> or by post to:
+                            If you have questions or comments about this policy, you may email us at <a href="mailto:support@zohomail.com" className="text-blue-600 hover:underline">support@zohomail.com</a> or by post to:
                         </p>
                         <address className="not-italic mt-4 text-gray-500 dark:text-gray-500">
                             InventisLabs Pvt. Ltd.<br />
