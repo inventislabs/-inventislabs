@@ -209,10 +209,10 @@ const Contact = () => {
                         Email
                       </h4>
                       <a
-                        href="mailto:support@zohomail.com"
+                        href="mailto:support@inventislabs.com"
                         className="text-gray-500 dark:text-gray-400 text-sm mt-1 hover:text-blue-600 transition-colors"
                       >
-                        support@zohomail.com
+                        support@inventislabs.com
                       </a>
                     </div>
                   </li>
