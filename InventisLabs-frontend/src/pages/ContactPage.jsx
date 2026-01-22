@@ -47,7 +47,7 @@ const ContactPage = () => {
                 <div>
                   <h3 className="font-bold text-lg mb-1">Email Us</h3>
                   <p className="text-gray-500 dark:text-gray-400">
-                    support@zohomail.com
+                    support@inventislabs.com
                   </p>
                 </div>
               </div>
@@ -108,7 +108,19 @@ const ContactPage = () => {
                           <option>Other</option>
                         </select>
                         <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                          <svg
+                            className="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M19 9l-7 7-7-7"
+                            ></path>
+                          </svg>
                         </div>
                       </div>
                     </div>

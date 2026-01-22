@@ -299,7 +299,7 @@ const getEmailTemplate = (name, type = "contact", details = {}) => {
                     <p class="footer-text">
                         Inventis Labs Pvt. Ltd.<br>
                         Tech Park, Sector 62, Noida<br>
-                        Questions? <a href="mailto:support@zohomail.com" style="color: #1d1d1f; text-decoration: underline;">support@zohomail.com</a>
+                        Questions? <a href="mailto:support@inventislabs.com" style="color: #1d1d1f; text-decoration: underline;">support@inventislabs.com</a>
                     </p>
                     <div class="copyright">
                         &copy; ${new Date().getFullYear()} Inventis Labs Pvt. Ltd.

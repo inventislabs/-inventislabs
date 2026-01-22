@@ -1,142 +1,179 @@
-const Job = require('../models/Job');
-const Contact = require('../models/Contact');
-const Reply = require('../models/Reply');
-const { catchAsync, AppError } = require('../middleware/errorHandler');
+const Job = require("../models/Job");
+const Contact = require("../models/Contact");
+const Reply = require("../models/Reply");
+const { catchAsync, AppError } = require("../middleware/errorHandler");
 
 // --- Jobs Management ---
 
 exports.createJob = catchAsync(async (req, res, next) => {
-    const { title, location, type, department, description, salary, experience, deadline, responsibilities, requirements, niceToHave, jobId } = req.body;
+  const {
+    title,
+    location,
+    type,
+    department,
+    description,
+    salary,
+    experience,
+    deadline,
+    responsibilities,
+    requirements,
+    niceToHave,
+    jobId,
+  } = req.body;
 
-    const newJob = new Job({
-        title, location, type, department, description,
-        salary, experience, deadline,
-        responsibilities, requirements, niceToHave, jobId
-    });
+  const newJob = new Job({
+    title,
+    location,
+    type,
+    department,
+    description,
+    salary,
+    experience,
+    deadline,
+    responsibilities,
+    requirements,
+    niceToHave,
+    jobId,
+  });
 
-    await newJob.save();
+  await newJob.save();
 
-    res.status(201).json({
-        success: true,
-        message: 'Job created successfully',
-        data: newJob
-    });
+  res.status(201).json({
+    success: true,
+    message: "Job created successfully",
+    data: newJob,
+  });
 });
 
 exports.updateJob = catchAsync(async (req, res, next) => {
-    const { pinned, status, title, location, type, department, description, salary, experience, deadline, responsibilities, requirements, niceToHave, jobId } = req.body;
+  const {
+    pinned,
+    status,
+    title,
+    location,
+    type,
+    department,
+    description,
+    salary,
+    experience,
+    deadline,
+    responsibilities,
+    requirements,
+    niceToHave,
+    jobId,
+  } = req.body;
 
-    const updates = {};
-    if (typeof pinned !== 'undefined') updates.pinned = pinned;
-    if (status) updates.status = status;
-    if (title) updates.title = title;
-    if (location) updates.location = location;
-    if (type) updates.type = type;
-    if (department) updates.department = department;
-    if (description) updates.description = description;
-    if (salary) updates.salary = salary;
-    if (experience) updates.experience = experience;
-    if (deadline) updates.deadline = deadline;
-    if (responsibilities) updates.responsibilities = responsibilities;
-    if (requirements) updates.requirements = requirements;
-    if (niceToHave) updates.niceToHave = niceToHave;
-    if (jobId) updates.jobId = jobId;
+  const updates = {};
+  if (typeof pinned !== "undefined") updates.pinned = pinned;
+  if (status) updates.status = status;
+  if (title) updates.title = title;
+  if (location) updates.location = location;
+  if (type) updates.type = type;
+  if (department) updates.department = department;
+  if (description) updates.description = description;
+  if (salary) updates.salary = salary;
+  if (experience) updates.experience = experience;
+  if (deadline) updates.deadline = deadline;
+  if (responsibilities) updates.responsibilities = responsibilities;
+  if (requirements) updates.requirements = requirements;
+  if (niceToHave) updates.niceToHave = niceToHave;
+  if (jobId) updates.jobId = jobId;
 
-    const updatedJob = await Job.findByIdAndUpdate(req.params.id, updates, {
-        new: true,
-        runValidators: true
-    });
+  const updatedJob = await Job.findByIdAndUpdate(req.params.id, updates, {
+    new: true,
+    runValidators: true,
+  });
 
-    if (!updatedJob) {
-        return next(new AppError('Job not found', 404));
-    }
+  if (!updatedJob) {
+    return next(new AppError("Job not found", 404));
+  }
 
-    res.status(200).json({
-        success: true,
-        message: 'Job updated successfully',
-        data: updatedJob
-    });
+  res.status(200).json({
+    success: true,
+    message: "Job updated successfully",
+    data: updatedJob,
+  });
 });
 
 exports.deleteJob = catchAsync(async (req, res, next) => {
-    const job = await Job.findByIdAndDelete(req.params.id);
+  const job = await Job.findByIdAndDelete(req.params.id);
 
-    if (!job) {
-        return next(new AppError('Job not found', 404));
-    }
+  if (!job) {
+    return next(new AppError("Job not found", 404));
+  }
 
-    res.status(200).json({
-        success: true,
-        message: 'Job deleted successfully'
-    });
+  res.status(200).json({
+    success: true,
+    message: "Job deleted successfully",
+  });
 });
 
 // --- Messages Management ---
 
 exports.getAllMessages = catchAsync(async (req, res, next) => {
-    const messages = await Contact.find().sort({ date: -1 });
+  const messages = await Contact.find().sort({ date: -1 });
 
-    const formattedMessages = messages.map(msg => ({
-        id: msg._id,
-        fullName: msg.fullName,
-        email: msg.email,
-        subject: msg.subject,
-        message: msg.message,
-        read: msg.read,
-        starred: msg.starred,
-        date: msg.date
-    }));
+  const formattedMessages = messages.map((msg) => ({
+    id: msg._id,
+    fullName: msg.fullName,
+    email: msg.email,
+    subject: msg.subject,
+    message: msg.message,
+    read: msg.read,
+    starred: msg.starred,
+    date: msg.date,
+  }));
 
-    res.status(200).json({
-        success: true,
-        count: formattedMessages.length,
-        data: formattedMessages
-    });
+  res.status(200).json({
+    success: true,
+    count: formattedMessages.length,
+    data: formattedMessages,
+  });
 });
 
 exports.deleteMessage = catchAsync(async (req, res, next) => {
-    const message = await Contact.findByIdAndDelete(req.params.id);
+  const message = await Contact.findByIdAndDelete(req.params.id);
 
-    if (!message) {
-        return next(new AppError('Message not found', 404));
-    }
+  if (!message) {
+    return next(new AppError("Message not found", 404));
+  }
 
-    res.status(200).json({
-        success: true,
-        message: 'Message deleted successfully'
-    });
+  res.status(200).json({
+    success: true,
+    message: "Message deleted successfully",
+  });
 });
 
 exports.updateMessage = catchAsync(async (req, res, next) => {
-    const { read, starred } = req.body;
-    const updateData = {};
-    if (read !== undefined) updateData.read = read;
-    if (starred !== undefined) updateData.starred = starred;
+  const { read, starred } = req.body;
+  const updateData = {};
+  if (read !== undefined) updateData.read = read;
+  if (starred !== undefined) updateData.starred = starred;
 
-    const updatedMessage = await Contact.findByIdAndUpdate(
-        req.params.id,
-        updateData,
-        { new: true, runValidators: true }
-    );
+  const updatedMessage = await Contact.findByIdAndUpdate(
+    req.params.id,
+    updateData,
+    { new: true, runValidators: true },
+  );
 
-    if (!updatedMessage) {
-        return next(new AppError('Message not found', 404));
-    }
-
+  if (!updatedMessage) {
+    return next(new AppError("Message not found", 404));
+  }
 });
 
 // --- Email Reply & Forward ---
 
 exports.replyToMessage = catchAsync(async (req, res, next) => {
-    const { to, subject, message, originalMessage, recipientName, contactId } = req.body;
+  const { to, subject, message, originalMessage, recipientName, contactId } =
+    req.body;
 
-    if (!to || !subject || !message) {
-        return next(new AppError('Missing required fields', 400));
-    }
+  if (!to || !subject || !message) {
+    return next(new AppError("Missing required fields", 400));
+  }
 
-    const { transporter } = require('../services/emailService');
+  const { transporter } = require("../services/emailService");
 
-    const emailHtml = `
+  const emailHtml = `
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -170,19 +207,23 @@ exports.replyToMessage = catchAsync(async (req, res, next) => {
                 <div class="content">
                     <h2 class="greeting">Hello, ${recipientName}</h2>
                     <p class="message">${message}</p>
-                    ${originalMessage ? `
+                    ${
+                      originalMessage
+                        ? `
                     <div class="divider"></div>
                     <div class="original-message">
                         <div class="original-label">Your Original Message</div>
                         <p class="original-text">${originalMessage}</p>
                     </div>
-                    ` : ''}
+                    `
+                        : ""
+                    }
                 </div>
                 <div class="footer">
                     <p class="footer-text">
                         Inventis Labs Pvt. Ltd.<br>
                         Tech Park, Sector 62, Noida<br>
-                        Questions? <a href="mailto:support@zohomail.com" style="color: #1d1d1f; text-decoration: underline;">support@zohomail.com</a>
+                        Questions? <a href="mailto:support@inventislabs.com" style="color: #1d1d1f; text-decoration: underline;">support@inventislabs.com</a>
                     </p>
                     <div class="copyright">
                         &copy; ${new Date().getFullYear()} Inventis Labs Pvt. Ltd.
@@ -194,40 +235,48 @@ exports.replyToMessage = catchAsync(async (req, res, next) => {
     </html>
     `;
 
-    await transporter.sendMail({
-        from: `"Inventis Labs" <${process.env.EMAIL_USER}>`,
-        to: to,
-        subject: subject,
-        html: emailHtml
-    });
+  await transporter.sendMail({
+    from: `"Inventis Labs" <${process.env.EMAIL_USER}>`,
+    to: to,
+    subject: subject,
+    html: emailHtml,
+  });
 
-    // Save reply to database for history
-    if (contactId) {
-        await Reply.create({
-            contactId: contactId,
-            type: 'reply',
-            to: to,
-            subject: subject,
-            message: message
-        });
-    }
-
-    res.status(200).json({
-        success: true,
-        message: 'Reply sent successfully'
+  // Save reply to database for history
+  if (contactId) {
+    await Reply.create({
+      contactId: contactId,
+      type: "reply",
+      to: to,
+      subject: subject,
+      message: message,
     });
+  }
+
+  res.status(200).json({
+    success: true,
+    message: "Reply sent successfully",
+  });
 });
 
 exports.forwardMessage = catchAsync(async (req, res, next) => {
-    const { to, subject, message, originalMessage, originalSender, originalEmail, contactId } = req.body;
+  const {
+    to,
+    subject,
+    message,
+    originalMessage,
+    originalSender,
+    originalEmail,
+    contactId,
+  } = req.body;
 
-    if (!to || !subject || !originalMessage) {
-        return next(new AppError('Missing required fields', 400));
-    }
+  if (!to || !subject || !originalMessage) {
+    return next(new AppError("Missing required fields", 400));
+  }
 
-    const { transporter } = require('../services/emailService');
+  const { transporter } = require("../services/emailService");
 
-    const emailHtml = `
+  const emailHtml = `
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -263,7 +312,7 @@ exports.forwardMessage = catchAsync(async (req, res, next) => {
                 </div>
                 <div class="content">
                     <div class="badge">Forwarded Message</div>
-                    ${message ? `<p class="message">${message}</p><div class="divider"></div>` : ''}
+                    ${message ? `<p class="message">${message}</p><div class="divider"></div>` : ""}
                     <div class="forwarded-message">
                         <div class="forwarded-header">Original Message</div>
                         <div class="meta-row">
@@ -277,7 +326,7 @@ exports.forwardMessage = catchAsync(async (req, res, next) => {
                     <p class="footer-text">
                         Inventis Labs Pvt. Ltd.<br>
                         Tech Park, Sector 62, Noida<br>
-                        Questions? <a href="mailto:support@zohomail.com" style="color: #1d1d1f; text-decoration: underline;">support@zohomail.com</a>
+                        Questions? <a href="mailto:support@inventislabs.com" style="color: #1d1d1f; text-decoration: underline;">support@inventislabs.com</a>
                     </p>
                     <div class="copyright">
                         &copy; ${new Date().getFullYear()} Inventis Labs Pvt. Ltd.
@@ -289,70 +338,69 @@ exports.forwardMessage = catchAsync(async (req, res, next) => {
     </html>
     `;
 
-    await transporter.sendMail({
-        from: `"Inventis Labs" <${process.env.EMAIL_USER}>`,
-        to: to,
-        subject: subject,
-        html: emailHtml
-    });
+  await transporter.sendMail({
+    from: `"Inventis Labs" <${process.env.EMAIL_USER}>`,
+    to: to,
+    subject: subject,
+    html: emailHtml,
+  });
 
-    // Save forward to database for history
-    if (contactId) {
-        await Reply.create({
-            contactId: contactId,
-            type: 'forward',
-            to: to,
-            subject: subject,
-            message: message || `Forwarded from ${originalSender}`
-        });
-    }
-
-    res.status(200).json({
-        success: true,
-        message: 'Message forwarded successfully'
+  // Save forward to database for history
+  if (contactId) {
+    await Reply.create({
+      contactId: contactId,
+      type: "forward",
+      to: to,
+      subject: subject,
+      message: message || `Forwarded from ${originalSender}`,
     });
+  }
+
+  res.status(200).json({
+    success: true,
+    message: "Message forwarded successfully",
+  });
 });
 
 // Get message conversation history
 exports.getMessageHistory = catchAsync(async (req, res, next) => {
-    const { id } = req.params;
+  const { id } = req.params;
 
-    // Get original contact message
-    const contact = await Contact.findById(id);
-    if (!contact) {
-        return next(new AppError('Message not found', 404));
-    }
+  // Get original contact message
+  const contact = await Contact.findById(id);
+  if (!contact) {
+    return next(new AppError("Message not found", 404));
+  }
 
-    // Get all replies for this contact
-    const replies = await Reply.find({ contactId: id }).sort({ sentAt: 1 });
+  // Get all replies for this contact
+  const replies = await Reply.find({ contactId: id }).sort({ sentAt: 1 });
 
-    // Build conversation thread
-    const thread = [
-        {
-            id: contact._id,
-            type: 'incoming',
-            from: contact.fullName,
-            email: contact.email,
-            subject: contact.subject,
-            message: contact.message,
-            date: contact.date,
-            isOriginal: true
-        },
-        ...replies.map(reply => ({
-            id: reply._id,
-            type: reply.type === 'reply' ? 'outgoing' : 'forwarded',
-            to: reply.to,
-            subject: reply.subject,
-            message: reply.message,
-            date: reply.sentAt,
-            sentBy: reply.sentBy
-        }))
-    ];
+  // Build conversation thread
+  const thread = [
+    {
+      id: contact._id,
+      type: "incoming",
+      from: contact.fullName,
+      email: contact.email,
+      subject: contact.subject,
+      message: contact.message,
+      date: contact.date,
+      isOriginal: true,
+    },
+    ...replies.map((reply) => ({
+      id: reply._id,
+      type: reply.type === "reply" ? "outgoing" : "forwarded",
+      to: reply.to,
+      subject: reply.subject,
+      message: reply.message,
+      date: reply.sentAt,
+      sentBy: reply.sentBy,
+    })),
+  ];
 
-    res.status(200).json({
-        success: true,
-        count: thread.length,
-        data: thread
-    });
+  res.status(200).json({
+    success: true,
+    count: thread.length,
+    data: thread,
+  });
 });
-
