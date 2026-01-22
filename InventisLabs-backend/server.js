@@ -65,8 +65,12 @@ const corsOptions = {
 
     const allowedOrigins = [
       process.env.FRONTEND_URL || "http://localhost:5173",
+      process.env.CLIENT_URL, // Also check CLIENT_URL as defined in .env
       "http://localhost:3000",
       "http://localhost:5173",
+      "https://www.inventislabs.com",
+      "https://inventislabs.com",
+      "https://inventislabs-jh5n.vercel.app"
     ];
 
     if (allowedOrigins.indexOf(origin) !== -1) {
