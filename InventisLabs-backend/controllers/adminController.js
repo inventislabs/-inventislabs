@@ -182,7 +182,7 @@ exports.replyToMessage = catchAsync(async (req, res, next) => {
                     <p class="footer-text">
                         Inventis Labs Pvt. Ltd.<br>
                         Tech Park, Sector 62, Noida<br>
-                        Questions? <a href="mailto:info@inventislabs.in" style="color: #1d1d1f; text-decoration: underline;">info@inventislabs.in</a>
+                        Questions? <a href="mailto:support@zohomail.com" style="color: #1d1d1f; text-decoration: underline;">support@zohomail.com</a>
                     </p>
                     <div class="copyright">
                         &copy; ${new Date().getFullYear()} Inventis Labs Pvt. Ltd.
@@ -277,7 +277,7 @@ exports.forwardMessage = catchAsync(async (req, res, next) => {
                     <p class="footer-text">
                         Inventis Labs Pvt. Ltd.<br>
                         Tech Park, Sector 62, Noida<br>
-                        Questions? <a href="mailto:info@inventislabs.in" style="color: #1d1d1f; text-decoration: underline;">info@inventislabs.in</a>
+                        Questions? <a href="mailto:support@zohomail.com" style="color: #1d1d1f; text-decoration: underline;">support@zohomail.com</a>
                     </p>
                     <div class="copyright">
                         &copy; ${new Date().getFullYear()} Inventis Labs Pvt. Ltd.

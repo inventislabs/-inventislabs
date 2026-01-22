@@ -225,7 +225,7 @@ const Careers = () => {
 
                                         <div className="shrink-0 flex flex-col items-end gap-4">
                                             <a
-                                                href={`mailto:careers@inventislabs.com?subject=Application for ${job.title}`}
+                                                href={`mailto:support@zohomail.com?subject=Application for ${job.title}`}
                                                 onClick={(e) => e.stopPropagation()}
                                                 className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gray-900 dark:bg-white text-white dark:text-black font-semibold text-sm transition-transform group-hover:scale-105 active:scale-95 whitespace-nowrap"
                                             >
@@ -243,7 +243,7 @@ const Careers = () => {
                 {!isLoading && filteredJobs.length > 0 && (
                     <div className="mt-20 text-center">
                         <p className="text-gray-600 dark:text-gray-400">
-                            Don't see a role that fits? <a href="mailto:careers@inventislabs.com" className="text-blue-600 hover:underline">Email us your resume</a>
+                            Don't see a role that fits? <a href="mailto:support@zohomail.com" className="text-blue-600 hover:underline">Email us your resume</a>
                         </p>
                     </div>
                 )}
