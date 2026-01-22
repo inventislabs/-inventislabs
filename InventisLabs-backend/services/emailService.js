@@ -1,34 +1,76 @@
-const nodemailer = require('nodemailer');
-require('dotenv').config();
+const nodemailer = require("nodemailer");
+require("dotenv").config();
 
-const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5173';
+const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
 
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-    }
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
 });
 
-const getEmailTemplate = (name, type = 'contact', details = {}) => {
-    const isNewsletter = type === 'newsletter';
-    const isAdmin = type === 'admin';
-
-    let title = 'Message Received';
-    let mainText = 'Thank you for reaching out. We have received your message and our team is currently reviewing it. We aim to respond within 24 hours.';
-    let greeting = `Hello, ${name}`;
-
-    if (isNewsletter) {
-        title = 'Welcome to the Community';
-        mainText = 'Thank you for subscribing to the Inventis Labs newsletter. You\'re now part of a community dedicated to building a safer future with advanced earthquake early warning technology.';
-    } else if (isAdmin) {
-        title = 'New Submission';
-        mainText = 'You have received a new contact form submission. Details are provided below:';
-        greeting = 'Admin Notification';
+// Email sending function with retry logic
+const sendEmail = async (mailOptions, retries = 3) => {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const info = await transporter.sendMail(mailOptions);
+      console.log(`✅ Email sent successfully to ${mailOptions.to}`);
+      return info;
+    } catch (error) {
+      console.error(`❌ Email send attempt ${i + 1} failed:`, error.message);
+      if (i === retries - 1) throw error;
+      await new Promise((resolve) => setTimeout(resolve, 1000 * (i + 1)));
     }
+  }
+};
 
-    const detailsHtml = isAdmin ? `
+const getEmailTemplate = (name, type = "contact", details = {}) => {
+  const isNewsletter = type === "newsletter";
+  const isAdmin = type === "admin";
+  const isJobApplication = type === "job-application";
+  const isJobApplicationAdmin = type === "job-application-admin";
+  const isPressKitRequest = type === "presskit-request";
+  const isPilotRequest = type === "pilot-request";
+  const isPilotRequestAdmin = type === "pilot-request-admin";
+
+  let title = "Message Received";
+  let mainText =
+    "Thank you for reaching out. We have received your message and our team is currently reviewing it. We aim to respond within 24 hours.";
+  let greeting = `Hello, ${name}`;
+
+  if (isNewsletter) {
+    title = "Welcome to the Community";
+    mainText =
+      "Thank you for subscribing to the Inventis Labs newsletter. You're now part of a community dedicated to building a safer future with advanced earthquake early warning technology.";
+  } else if (isAdmin) {
+    title = "New Contact Submission";
+    mainText =
+      "You have received a new contact form submission. Details are provided below:";
+    greeting = "Admin Notification";
+  } else if (isJobApplication) {
+    title = "Application Received";
+    mainText = `Thank you for applying for the <strong>${details.position || "position"}</strong> role at Inventis Labs. We have received your application and our hiring team is currently reviewing it. We will be in touch within 5-7 business days regarding the next steps.`;
+  } else if (isJobApplicationAdmin) {
+    title = "New Job Application";
+    mainText = `A new application has been received for <strong>${details.position || "a position"}</strong>. Candidate details are provided below:`;
+    greeting = "Hiring Team Notification";
+  } else if (isPressKitRequest) {
+    title = "Press Kit Downloaded";
+    mainText =
+      "Thank you for your interest in Inventis Labs. Your requested press kit materials have been prepared. If you need any additional information or have questions, please don't hesitate to reach out to our media team.";
+  } else if (isPilotRequest) {
+    title = "Enterprise Request Received";
+    mainText = `Thank you for your interest in Inventis Labs' earthquake early warning solutions. We have received your pilot request for <strong>${details.areaOfInterest || "your selected areas"}</strong>. Our enterprise team will review your requirements and contact you within 24-48 hours to discuss the next steps.`;
+  } else if (isPilotRequestAdmin) {
+    title = "New Enterprise Pilot Request";
+    mainText = `A new pilot request has been received from <strong>${details.organizationType}</strong> in ${details.location}. Priority review required.`;
+    greeting = "Enterprise Team Notification";
+  }
+
+  const detailsHtml = isAdmin
+    ? `
         <div style="background-color: #f5f5f7; border-radius: 16px; padding: 24px; margin: 32px 0;">
             <table style="width: 100%; border-collapse: separate; border-spacing: 0;">
                 <tr>
@@ -49,9 +91,100 @@ const getEmailTemplate = (name, type = 'contact', details = {}) => {
                 <p style="color: #1d1d1f; font-size: 14px; line-height: 1.6; margin: 0; white-space: pre-wrap;">${details.message}</p>
             </div>
         </div>
-    ` : '';
+    `
+    : isJobApplicationAdmin
+      ? `
+        <div style="background-color: #f5f5f7; border-radius: 16px; padding: 24px; margin: 32px 0;">
+            <table style="width: 100%; border-collapse: separate; border-spacing: 0;">
+                <tr>
+                    <td style="padding-bottom: 16px; border-bottom: 1px solid #e1e1e1; color: #86868b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Candidate Name</td>
+                    <td style="padding-bottom: 16px; border-bottom: 1px solid #e1e1e1; color: #1d1d1f; font-size: 14px; font-weight: 500; text-align: right;">${name}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 16px 0; border-bottom: 1px solid #e1e1e1; color: #86868b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Email</td>
+                    <td style="padding: 16px 0; border-bottom: 1px solid #e1e1e1; color: #1d1d1f; font-size: 14px; font-weight: 500; text-align: right;">${details.email}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 16px 0; border-bottom: 1px solid #e1e1e1; color: #86868b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Phone</td>
+                    <td style="padding: 16px 0; border-bottom: 1px solid #e1e1e1; color: #1d1d1f; font-size: 14px; font-weight: 500; text-align: right;">${details.phone || "N/A"}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 16px 0; border-bottom: 1px solid #e1e1e1; color: #86868b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Position</td>
+                    <td style="padding: 16px 0; border-bottom: 1px solid #e1e1e1; color: #1d1d1f; font-size: 14px; font-weight: 500; text-align: right;">${details.position}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 16px 0; border-bottom: 1px solid #e1e1e1; color: #86868b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Experience</td>
+                    <td style="padding: 16px 0; border-bottom: 1px solid #e1e1e1; color: #1d1d1f; font-size: 14px; font-weight: 500; text-align: right;">${details.experience || "N/A"}</td>
+                </tr>
+                ${
+                  details.resumeUrl
+                    ? `
+                <tr>
+                    <td style="padding: 16px 0; border-bottom: 1px solid #e1e1e1; color: #86868b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Resume</td>
+                    <td style="padding: 16px 0; border-bottom: 1px solid #e1e1e1; text-align: right;">
+                        <a href="${details.resumeUrl}" style="color: #007aff; text-decoration: none; font-size: 14px; font-weight: 500;">Download Resume</a>
+                    </td>
+                </tr>
+                `
+                    : ""
+                }
+            </table>
+            ${
+              details.coverLetter
+                ? `
+            <div style="margin-top: 16px;">
+                <p style="color: #86868b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">Cover Letter</p>
+                <p style="color: #1d1d1f; font-size: 14px; line-height: 1.6; margin: 0; white-space: pre-wrap;">${details.coverLetter}</p>
+            </div>
+            `
+                : ""
+            }
+        </div>
+    `
+      : isPilotRequestAdmin
+        ? `
+        <div style="background-color: #f5f5f7; border-radius: 16px; padding: 24px; margin: 32px 0;">
+            <table style="width: 100%; border-collapse: separate; border-spacing: 0;">
+                <tr>
+                    <td style="padding-bottom: 16px; border-bottom: 1px solid #e1e1e1; color: #86868b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Contact Name</td>
+                    <td style="padding-bottom: 16px; border-bottom: 1px solid #e1e1e1; color: #1d1d1f; font-size: 14px; font-weight: 500; text-align: right;">${name}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 16px 0; border-bottom: 1px solid #e1e1e1; color: #86868b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Organization Type</td>
+                    <td style="padding: 16px 0; border-bottom: 1px solid #e1e1e1; color: #1d1d1f; font-size: 14px; font-weight: 500; text-align: right;">${details.organizationType}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 16px 0; border-bottom: 1px solid #e1e1e1; color: #86868b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Email</td>
+                    <td style="padding: 16px 0; border-bottom: 1px solid #e1e1e1; color: #1d1d1f; font-size: 14px; font-weight: 500; text-align: right;">${details.email}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 16px 0; border-bottom: 1px solid #e1e1e1; color: #86868b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Phone</td>
+                    <td style="padding: 16px 0; border-bottom: 1px solid #e1e1e1; color: #1d1d1f; font-size: 14px; font-weight: 500; text-align: right;">${details.phone}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 16px 0; border-bottom: 1px solid #e1e1e1; color: #86868b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Location</td>
+                    <td style="padding: 16px 0; border-bottom: 1px solid #e1e1e1; color: #1d1d1f; font-size: 14px; font-weight: 500; text-align: right;">${details.location}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 16px 0; border-bottom: 1px solid #e1e1e1; color: #86868b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Area of Interest</td>
+                    <td style="padding: 16px 0; border-bottom: 1px solid #e1e1e1; color: #1d1d1f; font-size: 14px; font-weight: 500; text-align: right;">${details.areaOfInterest}</td>
+                </tr>
+            </table>
+            ${
+              details.message
+                ? `
+            <div style="margin-top: 16px;">
+                <p style="color: #86868b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">Requirements</p>
+                <p style="color: #1d1d1f; font-size: 14px; line-height: 1.6; margin: 0; white-space: pre-wrap;">${details.message}</p>
+            </div>
+            `
+                : ""
+            }
+        </div>
+    `
+        : "";
 
-    return `
+  return `
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -101,7 +234,38 @@ const getEmailTemplate = (name, type = 'contact', details = {}) => {
                     <h2 class="greeting">${greeting}</h2>
                     <p class="message">${mainText}</p>
                     ${detailsHtml}
-                    ${!isAdmin ? `
+                    ${
+                      !isAdmin && !isJobApplicationAdmin && !isPilotRequestAdmin
+                        ? `
+                    ${
+                      isJobApplication
+                        ? `
+                    <div style="background-color: #f5f5f7; border-radius: 12px; padding: 20px; margin: 24px 0;">
+                        <p style="margin: 0; color: #1d1d1f; font-size: 14px; line-height: 1.6;">
+                            <strong>What happens next?</strong><br>
+                            1. Our hiring team reviews your application<br>
+                            2. Qualified candidates will be contacted for an interview<br>
+                            3. We'll keep you updated on your application status
+                        </p>
+                    </div>
+                    `
+                        : ""
+                    }
+                    ${
+                      isPilotRequest
+                        ? `
+                    <div style="background-color: #f5f5f7; border-radius: 12px; padding: 20px; margin: 24px 0;">
+                        <p style="margin: 0; color: #1d1d1f; font-size: 14px; line-height: 1.6;">
+                            <strong>Next Steps:</strong><br>
+                            1. Our enterprise team will review your requirements<br>
+                            2. We'll prepare a customized solution proposal<br>
+                            3. A dedicated account manager will reach out within 24-48 hours<br>
+                            4. We'll schedule a detailed consultation call
+                        </p>
+                    </div>
+                    `
+                        : ""
+                    }
                     <div class="divider"></div>
                     <div class="features-grid">
                         <div class="feature-item">
@@ -116,7 +280,13 @@ const getEmailTemplate = (name, type = 'contact', details = {}) => {
                     <div style="text-align: center;">
                         <a href="${CLIENT_URL}" class="cta-button">Visit Website</a>
                     </div>
-                    ` : ''}
+                    `
+                        : `
+                    <div style="text-align: center; margin-top: 24px;">
+                        <a href="${CLIENT_URL}/admin" class="cta-button">View in Admin Panel</a>
+                    </div>
+                    `
+                    }
                 </div>
                 <div class="footer">
                     <div class="footer-links">
@@ -140,4 +310,45 @@ const getEmailTemplate = (name, type = 'contact', details = {}) => {
     `;
 };
 
-module.exports = { transporter, getEmailTemplate };
+// Quick email templates for different scenarios
+const quickEmailTemplates = {
+  contactConfirmation: (name) => ({
+    subject: "We received your message",
+    type: "contact",
+  }),
+  newsletterWelcome: () => ({
+    subject: "Welcome to Inventis Labs Newsletter!",
+    type: "newsletter",
+  }),
+  jobApplicationConfirmation: (name, position) => ({
+    subject: `Application Received - ${position}`,
+    type: "job-application",
+  }),
+  pressKitDownload: (name) => ({
+    subject: "Press Kit Materials - Inventis Labs",
+    type: "presskit-request",
+  }),
+  adminContactNotification: (name, subject) => ({
+    subject: `New Contact: ${subject || "Website Inquiry"}`,
+    type: "admin",
+  }),
+  adminJobApplicationNotification: (name, position) => ({
+    subject: `New Application: ${position} - ${name}`,
+    type: "job-application-admin",
+  }),
+  pilotRequestConfirmation: (name) => ({
+    subject: "Enterprise Pilot Request Received - Inventis Labs",
+    type: "pilot-request",
+  }),
+  adminPilotRequestNotification: (name, organizationType) => ({
+    subject: `🚨 New Enterprise Request: ${organizationType} - ${name}`,
+    type: "pilot-request-admin",
+  }),
+};
+
+module.exports = {
+  transporter,
+  getEmailTemplate,
+  sendEmail,
+  quickEmailTemplates,
+};
