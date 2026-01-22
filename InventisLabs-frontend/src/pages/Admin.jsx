@@ -4,6 +4,7 @@ import {
     Search, Inbox, Archive, Briefcase, Plus, MapPin, Clock, MoreHorizontal, Edit,
     Package, Download, Eye, EyeOff, Image, FileText, Upload
 } from 'lucide-react';
+import { getApiUrl } from '../config';
 
 const Admin = () => {
     // --- State ---
@@ -25,7 +26,7 @@ const Admin = () => {
     const [conversationHistory, setConversationHistory] = useState([]);
 
     // --- Env & Fetch ---
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+    const apiUrl = getApiUrl();
 
     // Helper to get auth headers
     const getAuthHeaders = () => {

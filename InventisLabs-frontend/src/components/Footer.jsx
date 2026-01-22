@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Twitter, Linkedin, Facebook, Instagram, Send } from "lucide-react";
 import { Link } from "react-router-dom";
 import Logo from "../assets/logo.svg";
+import { getApiUrl } from "../config";
 
 const Footer = () => {
   const [email, setEmail] = useState("");
@@ -20,7 +21,7 @@ const Footer = () => {
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/newsletter`,
+        `${getApiUrl()}/api/newsletter`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

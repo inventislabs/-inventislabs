@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Mail, Phone, MapPin, Send, ArrowRight, MessageSquare, Linkedin } from 'lucide-react';
+import { getApiUrl } from '../config';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -98,7 +99,7 @@ const Contact = () => {
         };
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/contact`, {
+            const response = await fetch(`${getApiUrl()}/api/contact`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -1,6 +1,7 @@
 import React, { useLayoutEffect, useRef, useState, useEffect } from 'react';
 import gsap from 'gsap';
 import { Search, MapPin, Clock, Briefcase, ArrowRight, X } from 'lucide-react';
+import { getApiUrl } from '../config';
 
 const Careers = () => {
     const containerRef = useRef(null);
@@ -28,7 +29,7 @@ const Careers = () => {
     useEffect(() => {
         const fetchJobs = async () => {
             try {
-                const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+                const apiUrl = getApiUrl();
                 const res = await fetch(`${apiUrl}/api/jobs`);
                 if (res.ok) {
                     const data = await res.json();
