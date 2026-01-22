@@ -173,7 +173,7 @@ const Contact = () => {
                                         </div>
                                         <div>
                                             <h4 className="font-semibold text-gray-900 dark:text-white">Email</h4>
-                                            <a href="mailto:info@inventislabs.com" className="text-gray-500 dark:text-gray-400 text-sm mt-1 hover:text-blue-600 transition-colors">info@inventislabs.com</a>
+                                            <a href="mailto:support@zohomail.com" className="text-gray-500 dark:text-gray-400 text-sm mt-1 hover:text-blue-600 transition-colors">support@zohomail.com</a>
                                         </div>
                                     </li>
                                     <li className="flex items-center gap-4">

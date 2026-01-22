@@ -47,7 +47,7 @@ const ContactPage = () => {
                 <div>
                   <h3 className="font-bold text-lg mb-1">Email Us</h3>
                   <p className="text-gray-500 dark:text-gray-400">
-                    info@inventislabs.com
+                    support@zohomail.com
                   </p>
                 </div>
               </div>
