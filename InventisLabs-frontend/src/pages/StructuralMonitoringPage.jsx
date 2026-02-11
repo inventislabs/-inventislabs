@@ -2,9 +2,29 @@ import React from "react";
 import Footer from "../components/Footer";
 import StructuralMonitoringMap from "../components/StructuralMonitoringMap";
 
+import SEO from "../components/SEO";
+
 const StructuralMonitoringPage = () => {
   return (
     <div className="relative min-h-screen bg-white dark:bg-black text-[#1d1d1f] dark:text-white transition-colors duration-500">
+      <SEO
+        title="Structural Health Monitoring | Seismic Sensor Solutions - Inventis Labs"
+        description="Real-time structural health monitoring for buildings, bridges, and critical infrastructure. Detect damage early with Inventis Labs."
+        keywords="structural health monitoring, seismic sensors, infrastructure monitoring, bridge monitoring, building safety"
+      >
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Service",
+            "name": "Structural Health Monitoring",
+            "provider": {
+              "@type": "Organization",
+              "name": "Inventis Labs"
+            },
+            "description": "Real-time structural health monitoring using IoT sensors and AI."
+          })}
+        </script>
+      </SEO>
       <main className="pt-20">
         {/* ================= HERO ================= */}
         <section className="py-32 bg-white dark:bg-black">

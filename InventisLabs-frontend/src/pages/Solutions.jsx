@@ -11,12 +11,18 @@ import {
 } from "lucide-react";
 import Footer from "../components/Footer";
 import MonitoringImage from "../assets/e.png";
+import SEO from "../components/SEO";
 
 const Solutions = () => {
   const [activeTab, setActiveTab] = useState("government");
 
   return (
     <div className="min-h-screen bg-white dark:bg-black text-[#1d1d1f] dark:text-white font-display pt-20 transition-colors duration-500">
+      <SEO
+        title="Our Solutions - No 1 Earthquake System & IoT Engineering | Inventis Labs"
+        description="Explore Inventis Labs solutions: EQ-Alert Earthquake Warning System, Structural Health Monitoring, and Custom IoT Engineering."
+        keywords="earthquake warning system, structural health monitoring, IoT engineering, embedded systems, inventis labs"
+      />
       {/* Page Header */}
       <section className="bg-[#F5F5F7] dark:bg-zinc-900 py-12 sm:py-16 md:py-20 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">

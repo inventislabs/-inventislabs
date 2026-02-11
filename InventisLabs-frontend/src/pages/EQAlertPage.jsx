@@ -2,9 +2,29 @@ import React from "react";
 import EarlyWarning from "../components/EarlyWarning";
 import Footer from "../components/Footer";
 
+import SEO from "../components/SEO";
+
 const EQAlertPage = () => {
   return (
     <div className="relative min-h-screen bg-white dark:bg-black text-[#1d1d1f] dark:text-white transition-colors duration-500">
+      <SEO
+        title="EQ-Alert | No 1 Earthquake Warning System - Inventis Labs"
+        description="EQ-Alert provides seconds of advance notice to save lives and protect infrastructure. The most reliable earthquake early warning system available."
+        keywords="earthquake early warning, eq-alert, seismic early warning, earthquake detection, inventis labs"
+      >
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": "EQ-Alert",
+            "description": "Earthquake Early Warning System providing advance notice of seismic events.",
+            "brand": {
+              "@type": "Brand",
+              "name": "Inventis Labs"
+            }
+          })}
+        </script>
+      </SEO>
       <main className="pt-20">
         {/* Hero Section - Responsive */}
         <section className="py-16 sm:py-20 md:py-24 lg:py-32 bg-white dark:bg-black">
